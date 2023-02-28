@@ -1,6 +1,6 @@
 import HomePage from './pages/HomePage/HomePage'
 import AddAlgorithmPage from './pages/AddAlgorithmPage/AddAlgorithmPage';
-import RunAlgorithmsPage from './pages/RunAlgorithms/RunAlgorithmsPage';
+import RunAlgorithmsPage from './pages/RunAlgorithmsPage/RunAlgorithmsPage';
 import './App.css';
 import {
   Routes ,

@@ -1,0 +1,120 @@
+.modal_background{
+    width: 10vw;
+    height: 10vh;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 1px;
+    bottom: 300px;
+}
+
+.modal_container{
+    position:absolute;
+    display: flex;
+    width: 100%;
+    top: 20px;
+    background-color: #ffffff;
+    z-index: 2;
+    width: 500px;
+    height: 500px;
+    border-radius: 12px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    
+}
+
+
+.title_close_button{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close_modal{
+    background-color: transparent;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    background-color: rgb(221, 220, 220);
+    border-radius: 8px;
+    border-width: 0;
+    color: #000000;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 10px 12px;
+    text-align: center;
+    transition: all 200ms;
+    vertical-align: baseline;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.title{
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-top: 0px;
+    margin-bottom: 50px;
+}
+
+.param{
+    display: flex;
+    flex-direction: row;
+}
+
+.input{
+    width: 50px;
+}
+
+.desc_and_types{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0px;
+    margin-bottom: 50px;
+    margin-left: 15px;
+}
+
+.desc{
+    margin-top: 0px;
+    margin-bottom: 0%;
+    text-align: left;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+.types{
+    margin-top: 2px;
+    margin-bottom: 0%;
+    text-align: left;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+
+}
+
+.save_button_container{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 50%;
+    margin-right: 50%;
+}
+
+
+.save_button{
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

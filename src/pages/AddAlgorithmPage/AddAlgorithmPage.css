@@ -1,0 +1,21 @@
+.AddAlgorithmPage{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.add_name, .addFile, .add_arguments, .add_description, .add_additional_info, .add_output_example{
+    margin-bottom: 10px;
+}
+
+.main_title, .add_name_title, .upload_algo_title, .desc_title, .args_title, .info_title, .output_title{
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+
+
+.add_button{
+    width: 100px;
+    margin-left:45%;
+}

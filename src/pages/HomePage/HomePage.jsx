@@ -12,10 +12,14 @@ const HomePage = () => {
   };
   return (
     <div className="HomePage">
-      <div className="title">
+      <div className="homepage_container">
         <h1 className="homePageTitle">Welcome! what would you like to do?</h1>
-        <button onClick={onClickAddAlgorithm}>add new algorithm</button>
-        <button onClick={onClickRunAlgorithms}>run algorithms</button>
+        <button className="add_alg_button" onClick={onClickAddAlgorithm}>
+          add new algorithm
+        </button>
+        <button className="run_alg_button" onClick={onClickRunAlgorithms}>
+          run algorithms
+        </button>
       </div>
     </div>
   );
