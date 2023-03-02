@@ -67,3 +67,65 @@
     margin-bottom: 50px;
 }
 
+.name_title, .desc_title, .types_title, .actions_title, .name, .desc, .types{
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.edit_button{
+    margin-right: 5px;
+}
+
+.param_in_modal{
+    display: flex;
+    flex-direction: row;
+}
+
+.table_title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    
+}
+
+.add_parameters_list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.p_name, .p_desc{
+    display: flex;
+    margin-right: 100px;
+}
+
+.new_param{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+.name_input{
+    width: 50px;
+    margin-right: 10px;
+}
+
+.desc_input{
+    /* height: 50px; */
+    margin-right: 10px;
+}
+
+.types_input{
+    margin-left: 20px;
+}
+
+.add_add_button{
+    margin-left: 10px;
+}
+
+.add_save_button_container{
+    margin-top: 100px;
+}
+

@@ -9,6 +9,11 @@ const AddAlgorithmPage = () => {
       description: "param description",
       accepted_types: "int, string",
     },
+    {
+      param_name: "y",
+      description: "param description",
+      accepted_types: "int",
+    },
   ];
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
@@ -50,18 +55,6 @@ const AddAlgorithmPage = () => {
         </form>
       </div>
 
-      <div className="add_arguments">
-        <button className="args_title" onClick={onAddParamsClick}>
-          add_parameters
-        </button>
-      </div>
-      {console.log(parametersList)}
-      <AddParametersModal
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        paramsList={parametersList}
-      />
-
       <div className="add_additional_info">
         <form>
           <label className="info_title">
@@ -79,6 +72,17 @@ const AddAlgorithmPage = () => {
           </label>
         </form>
       </div>
+
+      <div className="add_arguments">
+        <button className="args_title" onClick={onAddParamsClick}>
+          add_parameters
+        </button>
+      </div>
+      <AddParametersModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        paramsList={parametersList}
+      />
 
       <button className="add_button">add</button>
     </div>
