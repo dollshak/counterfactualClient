@@ -4,18 +4,32 @@
     
 }
 
+.fields{
+    margin-left: 42%;
+}
+
 .add_name, .addFile, .add_arguments, .add_description, .add_additional_info, .add_output_example{
-    margin-bottom: 10px;
+    margin-bottom: 30px;
+    margin-left: 0%;
+    text-align: left;
 }
 
 .main_title, .add_name_title, .upload_algo_title, .desc_title, .args_title, .info_title, .output_title{
     font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
+.info_input, .output_info, .desc_input, .upload_algo_input, .add_name_input{
+    margin-left: 10px;
+}
+
+.main_title{
+    margin-bottom: 50px;
 }
 
 
 
-.add_button{
+.add_button, .add_arguments{
     width: 100px;
-    margin-left:45%;
+    margin-left:47%;
+    margin-top: 10px;
 }

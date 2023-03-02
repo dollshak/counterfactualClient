@@ -43,7 +43,7 @@ export const AddParametersModal = ({ open, onClose, paramsList }) => {
           <input className="name_input" type="text" />
           <input className="desc_input" type="text" />
           <input className="types_input" type="text" />
-          <button className="add_button">add</button>
+          <button className="add_param_button">add</button>
         </div>
 
         <div className="add_save_button_container">

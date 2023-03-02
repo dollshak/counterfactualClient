@@ -25,6 +25,7 @@
     flex-direction: column;
     padding: 25px;
     
+    
 }
 
 
@@ -96,12 +97,17 @@
     margin-bottom: 0%;
     text-align: left;
     font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
+.new_param{
+    margin-left: 5%;
+}
 
+.add_param_button{
+    margin-left: 5px;
 }
 
 .save_button_container{
-    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;

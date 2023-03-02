@@ -45,7 +45,6 @@ const RunAlgorithmsPage = () => {
   const algorithmChecked = (algorithmId) => {
     var checkBox = document.getElementById(algorithmId);
     var text = document.getElementById("p" + algorithmId);
-    console.log(checkBox.checked);
     if (checkBox.checked) {
       text.hidden = false;
     } else {
@@ -65,7 +64,6 @@ const RunAlgorithmsPage = () => {
     } else {
       setParamsStr(paramsStr + "," + modelParam);
     }
-    console.log(paramsStr);
     setmodelParam("");
   };
 
@@ -101,7 +99,6 @@ const RunAlgorithmsPage = () => {
               >
                 add params
               </button>
-              {console.log(algorithm)}
               <ParametersModal
                 open={openModal}
                 onClose={() => setOpenModal(false)}
