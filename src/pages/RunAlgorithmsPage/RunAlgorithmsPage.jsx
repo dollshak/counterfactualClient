@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ParametersModal } from "../ParametersModal/ParametersModal";
 import { useNavigate } from "react-router-dom";
+import Axios from "axios";
 
 const RunAlgorithmsPage = () => {
   const navigate = useNavigate();
@@ -9,36 +10,11 @@ const RunAlgorithmsPage = () => {
   const [paramsStr, setParamsStr] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [algorithmToAddParams, setAlgorithmToAddParams] = useState();
-  // const [algorithmsList, setAlgorithmsList] = useState([]);
-  const algorithmsList = [
-    {
-      _id: "1",
-      name: "Dummy_CF",
-      file_content: "from server.businessLayer...",
-      description: "dummy",
-      argument_lst: [
-        { param_name: "x", description: "param desc", accepted_types: "int" },
-        {
-          param_name: "y",
-          description: "param desc",
-          accepted_types: "string",
-        },
-      ],
-      additional_info: "some info",
-      output_example: ["6000 -> 1200", "4 -> 40"],
-    },
-    {
-      _id: "2",
-      name: "Alibi",
-      file_content: "from server.businessLayer...",
-      description: "albidesc",
-      argument_lst: [
-        { param_name: "x", description: "param desc", accepted_types: "int" },
-      ],
-      additional_info: "some info",
-      output_example: ["6000 -> 1200", "4 -> 40"],
-    },
-  ];
+  const [algorithmsList, setAlgorithmsList] = useState([]);
+  const [modelFile, setModelFile] = useState();
+  const api = Axios.create({
+    baseURL: "http://127.0.0.1:5000",
+  });
 
   const onSubmit = () => {};
 
@@ -57,6 +33,18 @@ const RunAlgorithmsPage = () => {
     setOpenModal(true);
   };
 
+  useEffect(() => {
+    api
+      .get("/algos")
+      .then((res) => {
+        console.log(res?.data);
+        setAlgorithmsList(res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const addModelParam = () => {
     modelParamsList.push(modelParam);
     if (paramsStr === "") {
@@ -69,6 +57,29 @@ const RunAlgorithmsPage = () => {
 
   const onBackClick = () => {
     navigate("/");
+  };
+
+  const handleModelFileUpload = (e) => {
+    if (e.target.files) {
+      setModelFile(e.target.files[0]);
+    }
+    console.log(modelFile);
+  };
+
+  const handleUploadModelClick = () => {
+    if (!modelFile) {
+      return;
+    }
+    var formData = new FormData();
+    formData.append("modelFile", modelFile);
+    api
+      .post("/file", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => console.log(res?.data))
+      .catch((err) => console.error(err));
   };
   return (
     <div className="RunAlgorithmsPage">
@@ -108,13 +119,8 @@ const RunAlgorithmsPage = () => {
           ))}
         </div>
         <div className="model_upload">
-          <form>
-            <label className="upload_model">
-              upload a model:
-              <input type="text" />
-            </label>
-          </form>
-          <button className="upload_button">upload</button>
+          <input type="file" onChange={handleModelFileUpload} />
+          <button onClick={handleUploadModelClick}>Upload</button>
         </div>
         <div className="add_model_params">
           <form>
