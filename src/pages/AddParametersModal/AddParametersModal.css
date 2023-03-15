@@ -1,5 +1,5 @@
 .add_modal_background{
-    width: 10vw;
+    width: 50vw;
     height: 10vh;
     position: fixed;
     display: flex;
@@ -17,7 +17,7 @@
     top: 20px;
     background-color: #ffffff;
     z-index: 2;
-    width: 500px;
+    width: 1000px;
     height: 500px;
     border-radius: 12px;
     background-color: rgb(255, 255, 255);
@@ -85,7 +85,6 @@
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    
 }
 
 .add_parameters_list{
@@ -101,7 +100,7 @@
 
 .new_param{
     display: flex;
-    justify-content: center;
+    justify-content: center; 
     align-items: center;
     flex-direction: row;
     margin-top: 20px;
@@ -113,7 +112,6 @@
 }
 
 .desc_input{
-    /* height: 50px; */
     margin-right: 10px;
 }
 
@@ -129,3 +127,28 @@
     margin-top: 100px;
 }
 
+.table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th,
+  td {
+    border: 1px solid #ffffff;
+    text-align: left;
+    padding: 8px;
+    font-size: 15px;
+  }
+  
+  th {
+    background-color: rgb(117, 201, 250);
+  }
+  
+  td {
+    background-color: rgb(205, 235, 253);
+  }
+  
+  form {
+    display: flex;
+    gap: 5px;
+  }

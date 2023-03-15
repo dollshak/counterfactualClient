@@ -4,7 +4,8 @@ import { AddParametersModal } from "../AddParametersModal/AddParametersModal";
 import Axios from "axios";
 
 const AddAlgorithmPage = () => {
-  const parametersList = [
+  const [algorithmFile, setAlgorithmFile] = useState();
+  const [parametersList, setParametersList] = useState([
     {
       param_name: "x",
       description: "param description",
@@ -15,7 +16,7 @@ const AddAlgorithmPage = () => {
       description: "param description",
       accepted_types: "int",
     },
-  ];
+  ]);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const api = Axios.create({
@@ -39,6 +40,29 @@ const AddAlgorithmPage = () => {
         console.log(err);
       });
   };
+
+  const handleModelFileUpload = (e) => {
+    if (e.target.files) {
+      setAlgorithmFile(e.target.files[0]);
+    }
+  };
+
+  const handleUploadModelClick = () => {
+    if (!algorithmFile) {
+      return;
+    }
+    var formData = new FormData();
+    formData.append("modelFile", algorithmFile);
+    api
+      .post("/file", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => console.log(res?.data))
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div className="AddAlgorithmPage">
       <button className="back_button" onClick={onBackClick}>
@@ -51,14 +75,6 @@ const AddAlgorithmPage = () => {
             <label className="add_name_title">
               algorithm's name
               <input className="add_name_input" type="text" />
-            </label>
-          </form>
-        </div>
-        <div className="addFile">
-          <form>
-            <label className="upload_algo_title">
-              upload algorithm file
-              <input className="upload_algo_input" type="text" />
             </label>
           </form>
         </div>
@@ -88,6 +104,11 @@ const AddAlgorithmPage = () => {
             </label>
           </form>
         </div>
+
+        <div className="algorithm_upload">
+          <input type="file" id="files" onChange={handleModelFileUpload} />
+          <button onClick={handleUploadModelClick}>upload model</button>
+        </div>
       </div>
 
       <div className="add_arguments">
@@ -99,6 +120,7 @@ const AddAlgorithmPage = () => {
         open={openModal}
         onClose={() => setOpenModal(false)}
         paramsList={parametersList}
+        setParamsList={setParametersList}
       />
 
       <button className="add_button" onClick={onAddClick}>

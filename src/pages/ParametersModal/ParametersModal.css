@@ -64,7 +64,23 @@
 .title{
     font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.algo_info , .algo_output_example{
+    margin-top: 0px;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+.algo_desc{
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+.algo_output_example{
     margin-bottom: 50px;
+
 }
 
 .param{

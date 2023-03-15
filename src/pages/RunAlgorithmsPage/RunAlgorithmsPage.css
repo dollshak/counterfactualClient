@@ -36,7 +36,7 @@
     flex-direction: row;
   }
 
-  .algo_name ,.add_params_button, .choose_title, .upload_model, .upload_button, .add_model_input_label, .add_button, .run_button{
+  .RAP_MU_title, .algo_name ,.add_params_button, .choose_title, .upload_model, .upload_button, .add_model_input_label, .add_button, .run_button{
     font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
@@ -83,4 +83,9 @@
 
   .run_button{
     margin-top: 50px;
+  }
+
+  .RAP_MU_title{
+    margin-right: 10px;
+
   }

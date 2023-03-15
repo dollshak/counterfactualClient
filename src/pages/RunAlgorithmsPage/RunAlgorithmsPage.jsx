@@ -12,20 +12,32 @@ const RunAlgorithmsPage = () => {
   const [algorithmToAddParams, setAlgorithmToAddParams] = useState();
   const [algorithmsList, setAlgorithmsList] = useState([]);
   const [modelFile, setModelFile] = useState();
+  const [algosInputs, setAlgosInputs] = useState({});
   const api = Axios.create({
     baseURL: "http://127.0.0.1:5000",
   });
 
   const onSubmit = () => {};
 
-  const algorithmChecked = (algorithmId) => {
-    var checkBox = document.getElementById(algorithmId);
-    var text = document.getElementById("p" + algorithmId);
+  const addAlgoToList = (algorithm) => {
+    if (!(algorithm._id in algosInputs)) {
+      algosInputs[algorithm._id] = {};
+      algorithm.argument_lst.forEach((param) => {
+        algosInputs[algorithm._id][param.param_name] = "se";
+      });
+    }
+    console.log(algosInputs);
+  };
+
+  const algorithmChecked = (algorithm) => {
+    var checkBox = document.getElementById(algorithm._id);
+    var text = document.getElementById("p" + algorithm._id);
     if (checkBox.checked) {
       text.hidden = false;
     } else {
       text.hidden = true;
     }
+    addAlgoToList(algorithm);
   };
 
   const onAddParamsClick = (algorithm) => {
@@ -37,7 +49,6 @@ const RunAlgorithmsPage = () => {
     api
       .get("/algos")
       .then((res) => {
-        console.log(res?.data);
         setAlgorithmsList(res?.data);
       })
       .catch((err) => {
@@ -63,7 +74,6 @@ const RunAlgorithmsPage = () => {
     if (e.target.files) {
       setModelFile(e.target.files[0]);
     }
-    console.log(modelFile);
   };
 
   const handleUploadModelClick = () => {
@@ -97,7 +107,7 @@ const RunAlgorithmsPage = () => {
                 id={algorithm._id}
                 name={algorithm.name}
                 value={algorithm.name}
-                onClick={() => algorithmChecked(algorithm._id)}
+                onClick={() => algorithmChecked(algorithm)}
               />
               <label className="algo_name" htmlFor={algorithm._id}>
                 {algorithm.name}
@@ -114,23 +124,21 @@ const RunAlgorithmsPage = () => {
                 open={openModal}
                 onClose={() => setOpenModal(false)}
                 algo={algorithmToAddParams}
+                algosInputs={algosInputs}
               />
             </div>
           ))}
         </div>
         <div className="model_upload">
-          <input type="file" onChange={handleModelFileUpload} />
-          <button onClick={handleUploadModelClick}>Upload</button>
+          <p className="RAP_MU_title">upload a model</p>
+          <input type="file" id="files" onChange={handleModelFileUpload} />
+          <button onClick={handleUploadModelClick}>upload model</button>
         </div>
-        <div className="add_model_params">
-          <form>
-            <label className="add_model_input_label">
-              add model input:
-              <input type="text" />
-            </label>
-          </form>
-          <button className="add_button" onClick={addModelParam}>
-            add
+        <div className="model_upload">
+          <p className="RAP_MU_title">upload model parameters</p>
+          <input type="file" id="files" onChange={handleModelFileUpload} />
+          <button onClick={handleUploadModelClick}>
+            upload model parameters
           </button>
         </div>
         <div className="submit_button">
