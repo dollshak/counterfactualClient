@@ -12,6 +12,9 @@ export const AddParametersModal = ({
   const [newDesc, setNewDesc] = useState("");
   const [newAcceptedTypes, setNewAcceptedTypes] = useState("");
   const [showParamExistMessage, setShowParamExistMessage] = useState(false);
+  const [editRow, setEditRow] = useState(null);
+  const [editedDesc, setEditedDesc] = useState("");
+  const [editedTypes, setEditedTypes] = useState("");
   if (!open) return null;
 
   const onDelete = (param_name) => {
@@ -21,7 +24,27 @@ export const AddParametersModal = ({
     setParamsList(filteredParamsList);
   };
 
+  const onEdit = (event, param) => {
+    event.preventDefault();
+    setEditRow(param.param_name);
+  };
+
+  const onSave = (event, paramName) => {
+    event.preventDefault();
+    const paramToModify = paramsList.find(
+      (param) => param.param_name === paramName
+    );
+
+    if (paramToModify) {
+      paramToModify.description = editedDesc;
+      paramToModify.accepted_types = editedTypes;
+    }
+    setParamsList(paramsList);
+    setEditRow(null);
+  };
+
   const onNameChange = (event) => {
+    event.preventDefault();
     setNewName(event.target.value);
   };
 
@@ -32,7 +55,8 @@ export const AddParametersModal = ({
     setNewAcceptedTypes(event.target.value);
   };
 
-  const onAddParamClick = () => {
+  const onAddParamClick = (event) => {
+    event.preventDefault();
     const isParamNameExists = paramsList.some(
       (param) => param.param_name === newName
     );
@@ -47,10 +71,11 @@ export const AddParametersModal = ({
       };
       const updatedParamsList = [...paramsList, newParam];
       setParamsList(updatedParamsList);
+      setNewName("");
+      setNewDesc("");
+      setNewAcceptedTypes("");
     }
   };
-
-  // const onEdit =
 
   return (
     <div className="add_modal_background">
@@ -62,7 +87,7 @@ export const AddParametersModal = ({
         </div>
         <h1 className="add_title">parameters</h1>
         <div className="table_container">
-          <form>
+          <form className="APM_form">
             <table>
               <thead>
                 <tr>
@@ -74,9 +99,22 @@ export const AddParametersModal = ({
               </thead>
               <tbody>
                 {paramsList.map((param) => (
-                  <Fragment>
-                    <EditableRow param={param} onDelete={onDelete} />
-                    <ReadOnlyRow param={param} onDelete={onDelete} />
+                  <Fragment key={param.param_name}>
+                    {editRow === param.param_name ? (
+                      <EditableRow
+                        param={param}
+                        setEditRow={setEditRow}
+                        setEditedDesc={setEditedDesc}
+                        setEditedTypes={setEditedTypes}
+                        onSave={onSave}
+                      />
+                    ) : (
+                      <ReadOnlyRow
+                        param={param}
+                        onDelete={onDelete}
+                        onEdit={onEdit}
+                      />
+                    )}
                   </Fragment>
                 ))}
                 <tr className="add_param_row">
@@ -107,7 +145,7 @@ export const AddParametersModal = ({
                   <td>
                     <button
                       className="add_param_button"
-                      onClick={onAddParamClick}
+                      onClick={(event) => onAddParamClick(event)}
                     >
                       add
                     </button>

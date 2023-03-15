@@ -21,8 +21,26 @@ const RunAlgorithmsPage = () => {
     const algo_names = Object.keys(algosInputs);
     const arg_list_obj = Object.values(algosInputs);
     const arg_list = arg_list_obj.map((obj) => Object.values(obj));
-    console.log(arg_list);
-    console.log(algo_names);
+    api
+      .post(
+        "/runAlgorithm",
+        {
+          algo_names: ["Dummy.py"],
+          arg_list: [2],
+          model_input: [6000, 10000, 200000],
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((res) => {
+        console.log(res.data);
+      });
   };
 
   const addAlgoToList = (algorithm) => {

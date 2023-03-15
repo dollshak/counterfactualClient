@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 
-function EditableRow({ param, onDelete }) {
+function EditableRow({
+  param,
+  setEditRow,
+  setEditedDesc,
+  setEditedTypes,
+  onSave,
+}) {
+  const onCancel = () => {
+    setEditRow(null);
+  };
   return (
     <tr id={param.param_name}>
-      <td className="nameEdit">
-        <input
-          type="text"
-          required="required"
-          placeholder={param.param_name}
-          name="name"
-        ></input>
-      </td>
+      <td className="nameEdit">{param.param_name}</td>
       <td className="desc">
         <input
           type="text"
           required="required"
           placeholder={param.description}
           name="description"
+          onChange={(event) => setEditedDesc(event.target.value)}
         ></input>
       </td>
       <td className="types">
@@ -25,15 +28,18 @@ function EditableRow({ param, onDelete }) {
           required="required"
           placeholder={param.accepted_types}
           name="acceptedTypes"
+          onChange={(event) => setEditedTypes(event.target.value)}
         ></input>
       </td>
       <td>
-        <button className="edit_button">edit</button>
         <button
-          className="delete_button"
-          onClick={() => onDelete(param.param_name)}
+          className="ER_save_button"
+          onClick={(event) => onSave(event, param.param_name)}
         >
-          delete
+          save
+        </button>
+        <button className="ER_delete_button" onClick={onCancel}>
+          cancle
         </button>
       </td>
     </tr>

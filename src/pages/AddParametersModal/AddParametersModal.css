@@ -127,6 +127,16 @@
     margin-top: 100px;
 }
 
+.APM_form{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+.ER_save_button{
+    margin-right: 5px;
+}
+
 .table {
     border-collapse: collapse;
     width: 100%;

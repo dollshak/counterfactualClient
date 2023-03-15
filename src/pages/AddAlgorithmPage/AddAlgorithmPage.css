@@ -16,17 +16,30 @@
 
 .algorithm_upload{
     margin-bottom: 30px;
-    margin-left: 10px;
+    margin-left: 0px;
     text-align: left;
+    display: flex;
+    flex-direction: row;
 }
 
-.main_title, .add_name_title, .upload_algo_title, .desc_title, .args_title, .info_title, .output_title{
+.main_title, .add_name_title, .upload_algo_title, .desc_title, .args_title, .info_title, .output_title, .AAP_upload_title{
     font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .info_input, .output_info, .desc_input, .upload_algo_input, .add_name_input{
     margin-left: 10px;
 }
+
+.AAP_upload_title{
+    margin-top: 0%;
+    margin-right: 10px;
+
+}
+
+/* .desc_input{
+    height: 3cm;
+    width: 10cm;
+} */
 
 .main_title{
     margin-bottom: 50px;

@@ -5,17 +5,21 @@ import Axios from "axios";
 
 const AddAlgorithmPage = () => {
   const [algorithmFile, setAlgorithmFile] = useState();
+  const [algoName, setAlgoName] = useState("");
+  const [algoDesc, setAlgoDesc] = useState("");
+  const [algoInfo, setAlgoInfo] = useState("");
+  const [algoOutputExample, setAlgoOutputExample] = useState("");
   const [parametersList, setParametersList] = useState([
-    {
-      param_name: "x",
-      description: "param description",
-      accepted_types: "int, string",
-    },
-    {
-      param_name: "y",
-      description: "param description",
-      accepted_types: "int",
-    },
+    // {
+    //   param_name: "x",
+    //   description: "param description",
+    //   accepted_types: "int, string",
+    // },
+    // {
+    //   param_name: "y",
+    //   description: "param description",
+    //   accepted_types: "int",
+    // },
   ]);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
@@ -26,13 +30,40 @@ const AddAlgorithmPage = () => {
     navigate("/");
   };
 
+  const onNameChange = (event) => {
+    setAlgoName(event.target.value);
+  };
+  const onDescChange = (event) => {
+    setAlgoDesc(event.target.value);
+  };
+  const onInfoChange = (event) => {
+    setAlgoInfo(event.target.value);
+  };
+  const onOutputChange = (event) => {
+    setAlgoOutputExample(event.target.value);
+  };
+
   const onAddParamsClick = () => {
     setOpenModal(true);
   };
 
   const onAddClick = () => {
+    if (!algorithmFile) {
+      return;
+    }
+    var formData = new FormData();
+    formData.append("file_content", algorithmFile);
+    formData.append("name", algoName);
+    formData.append("argument_lst", parametersList);
+    formData.append("description", algoDesc);
+    formData.append("additional_info", algoInfo);
+    formData.append("output_example", algoOutputExample);
     api
-      .get("/")
+      .post("/algorithm", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         console.log(res?.data);
       })
@@ -74,7 +105,12 @@ const AddAlgorithmPage = () => {
           <form>
             <label className="add_name_title">
               algorithm's name
-              <input className="add_name_input" type="text" />
+              <input
+                className="add_name_input"
+                type="text"
+                value={algoName}
+                onChange={onNameChange}
+              />
             </label>
           </form>
         </div>
@@ -82,7 +118,12 @@ const AddAlgorithmPage = () => {
           <form>
             <label className="desc_title">
               add description
-              <input className="desc_input" type="text" />
+              <input
+                className="desc_input"
+                type="text"
+                value={algoDesc}
+                onChange={onDescChange}
+              />
             </label>
           </form>
         </div>
@@ -91,7 +132,12 @@ const AddAlgorithmPage = () => {
           <form>
             <label className="info_title">
               add additional info
-              <input className="info_input" type="text" />
+              <input
+                className="info_input"
+                type="text"
+                value={algoInfo}
+                onChange={onInfoChange}
+              />
             </label>
           </form>
         </div>
@@ -100,14 +146,20 @@ const AddAlgorithmPage = () => {
           <form>
             <label className="output_title">
               add output example
-              <input className="output_info" type="text" />
+              <input
+                className="output_info"
+                type="text"
+                value={algoOutputExample}
+                onChange={onOutputChange}
+              />
             </label>
           </form>
         </div>
 
         <div className="algorithm_upload">
+          <p className="AAP_upload_title">upload algorithm file</p>
           <input type="file" id="files" onChange={handleModelFileUpload} />
-          <button onClick={handleUploadModelClick}>upload model</button>
+          {/* <button onClick={handleUploadModelClick}>upload model</button> */}
         </div>
       </div>
 
