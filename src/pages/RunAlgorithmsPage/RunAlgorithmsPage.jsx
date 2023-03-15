@@ -17,13 +17,19 @@ const RunAlgorithmsPage = () => {
     baseURL: "http://127.0.0.1:5000",
   });
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    const algo_names = Object.keys(algosInputs);
+    const arg_list_obj = Object.values(algosInputs);
+    const arg_list = arg_list_obj.map((obj) => Object.values(obj));
+    console.log(arg_list);
+    console.log(algo_names);
+  };
 
   const addAlgoToList = (algorithm) => {
-    if (!(algorithm._id in algosInputs)) {
-      algosInputs[algorithm._id] = {};
+    if (!(algorithm.name in algosInputs)) {
+      algosInputs[algorithm.name] = {};
       algorithm.argument_lst.forEach((param) => {
-        algosInputs[algorithm._id][param.param_name] = "se";
+        algosInputs[algorithm.name][param.param_name] = "se";
       });
     }
     console.log(algosInputs);
@@ -131,12 +137,22 @@ const RunAlgorithmsPage = () => {
         </div>
         <div className="model_upload">
           <p className="RAP_MU_title">upload a model</p>
-          <input type="file" id="files" onChange={handleModelFileUpload} />
+          <input
+            type="file"
+            accept=".pkl, .joblib"
+            id="files"
+            onChange={handleModelFileUpload}
+          />
           <button onClick={handleUploadModelClick}>upload model</button>
         </div>
         <div className="model_upload">
           <p className="RAP_MU_title">upload model parameters</p>
-          <input type="file" id="files" onChange={handleModelFileUpload} />
+          <input
+            type="file"
+            accept=".json"
+            id="files"
+            onChange={handleModelFileUpload}
+          />
           <button onClick={handleUploadModelClick}>
             upload model parameters
           </button>

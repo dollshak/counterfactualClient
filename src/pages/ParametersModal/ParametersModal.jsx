@@ -2,17 +2,16 @@ import React, { useState } from "react";
 
 export const ParametersModal = ({ open, onClose, algo, algosInputs }) => {
   if (!open) return null;
-  const tempAlgoInputs = { ...algosInputs[algo._id] };
+  const tempAlgoInputs = { ...algosInputs[algo.name] };
 
   const onParamChange = (event, arg) => {
-    // algosInputs[algo._id][arg.param_name] = event.target.value;
     tempAlgoInputs[arg.param_name] = event.target.value;
-    console.log(algosInputs[algo._id]);
+    console.log(algosInputs[algo.name]);
     console.log(tempAlgoInputs);
   };
 
   const onSave = () => {
-    algosInputs[algo._id] = tempAlgoInputs;
+    algosInputs[algo.name] = tempAlgoInputs;
     onClose();
   };
   return (
