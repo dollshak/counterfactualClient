@@ -12,6 +12,7 @@ const RunAlgorithmsPage = () => {
   const [algorithmToAddParams, setAlgorithmToAddParams] = useState();
   const [algorithmsList, setAlgorithmsList] = useState([]);
   const [modelFile, setModelFile] = useState();
+  const [modelInputsFile, setModelInputsFile] = useState();
   const [algosInputs, setAlgosInputs] = useState({});
   const api = Axios.create({
     baseURL: "http://127.0.0.1:5000",
@@ -21,25 +22,22 @@ const RunAlgorithmsPage = () => {
     const algo_names = Object.keys(algosInputs);
     const arg_list_obj = Object.values(algosInputs);
     const arg_list = arg_list_obj.map((obj) => Object.values(obj));
+    var formData = new FormData();
+    formData.append("algo_names", algo_names);
+    formData.append("arg_list", arg_list);
+    formData.append("model_file", modelFile);
+    formData.append("model_input", modelInputsFile);
     api
-      .post(
-        "/runAlgorithm",
-        {
-          algo_names: ["Dummy.py"],
-          arg_list: [2],
-          model_input: [6000, 10000, 200000],
+      .post("/runAlgorithm", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
       })
-      .catch((res) => {
-        console.log(res.data);
+      .then((res) => {
+        console.log(res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -80,16 +78,6 @@ const RunAlgorithmsPage = () => {
       });
   }, []);
 
-  const addModelParam = () => {
-    modelParamsList.push(modelParam);
-    if (paramsStr === "") {
-      setParamsStr(modelParam);
-    } else {
-      setParamsStr(paramsStr + "," + modelParam);
-    }
-    setmodelParam("");
-  };
-
   const onBackClick = () => {
     navigate("/");
   };
@@ -99,22 +87,12 @@ const RunAlgorithmsPage = () => {
       setModelFile(e.target.files[0]);
     }
   };
-
-  const handleUploadModelClick = () => {
-    if (!modelFile) {
-      return;
+  const handleModelInputsFileUpload = (e) => {
+    if (e.target.files) {
+      setModelInputsFile(e.target.files[0]);
     }
-    var formData = new FormData();
-    formData.append("modelFile", modelFile);
-    api
-      .post("/file", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => console.log(res?.data))
-      .catch((err) => console.error(err));
   };
+
   return (
     <div className="RunAlgorithmsPage">
       <button className="back_button" onClick={onBackClick}>
@@ -154,26 +132,22 @@ const RunAlgorithmsPage = () => {
           ))}
         </div>
         <div className="model_upload">
-          <p className="RAP_MU_title">upload a model</p>
+          <p className="RAP_MU_title">upload a model:</p>
           <input
             type="file"
             accept=".pkl, .joblib"
             id="files"
             onChange={handleModelFileUpload}
           />
-          <button onClick={handleUploadModelClick}>upload model</button>
         </div>
         <div className="model_upload">
-          <p className="RAP_MU_title">upload model parameters</p>
+          <p className="RAP_MU_title">upload model parameters:</p>
           <input
             type="file"
             accept=".json"
             id="files"
-            onChange={handleModelFileUpload}
+            onChange={handleModelInputsFileUpload}
           />
-          <button onClick={handleUploadModelClick}>
-            upload model parameters
-          </button>
         </div>
         <div className="submit_button">
           <button className="run_button" onClick={onSubmit}>

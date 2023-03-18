@@ -9,20 +9,11 @@ const AddAlgorithmPage = () => {
   const [algoDesc, setAlgoDesc] = useState("");
   const [algoInfo, setAlgoInfo] = useState("");
   const [algoOutputExample, setAlgoOutputExample] = useState("");
-  const [parametersList, setParametersList] = useState([
-    // {
-    //   param_name: "x",
-    //   description: "param description",
-    //   accepted_types: "int, string",
-    // },
-    // {
-    //   param_name: "y",
-    //   description: "param description",
-    //   accepted_types: "int",
-    // },
-  ]);
+  const [parametersList, setParametersList] = useState([]);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
+  const [showGoodMessage, setShowGoodMessage] = useState(false);
+  const [showBadMessage, setShowBadMessage] = useState(false);
   const api = Axios.create({
     baseURL: "http://127.0.0.1:5000",
   });
@@ -32,6 +23,8 @@ const AddAlgorithmPage = () => {
 
   const onNameChange = (event) => {
     setAlgoName(event.target.value);
+    setShowBadMessage(false);
+    setShowGoodMessage(false);
   };
   const onDescChange = (event) => {
     setAlgoDesc(event.target.value);
@@ -52,12 +45,15 @@ const AddAlgorithmPage = () => {
       return;
     }
     var formData = new FormData();
+    var data = [
+      { param_name: "shape", description: "", accepted_types: "int" },
+    ];
     formData.append("file_content", algorithmFile);
     formData.append("name", algoName);
-    formData.append("argument_lst", parametersList);
+    formData.append("argument_lst", JSON.stringify(data));
     formData.append("description", algoDesc);
     formData.append("additional_info", algoInfo);
-    formData.append("output_example", algoOutputExample);
+    formData.append("output_example", ["1"]);
     api
       .post("/algorithm", formData, {
         headers: {
@@ -66,9 +62,13 @@ const AddAlgorithmPage = () => {
       })
       .then((res) => {
         console.log(res?.data);
+        setShowGoodMessage(true);
+        setShowBadMessage(false);
       })
       .catch((err) => {
         console.log(err);
+        setShowBadMessage(true);
+        setShowGoodMessage(false);
       });
   };
 
@@ -76,22 +76,6 @@ const AddAlgorithmPage = () => {
     if (e.target.files) {
       setAlgorithmFile(e.target.files[0]);
     }
-  };
-
-  const handleUploadModelClick = () => {
-    if (!algorithmFile) {
-      return;
-    }
-    var formData = new FormData();
-    formData.append("modelFile", algorithmFile);
-    api
-      .post("/file", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => console.log(res?.data))
-      .catch((err) => console.error(err));
   };
 
   return (
@@ -159,7 +143,6 @@ const AddAlgorithmPage = () => {
         <div className="algorithm_upload">
           <p className="AAP_upload_title">upload algorithm file</p>
           <input type="file" id="files" onChange={handleModelFileUpload} />
-          {/* <button onClick={handleUploadModelClick}>upload model</button> */}
         </div>
       </div>
 
@@ -178,6 +161,14 @@ const AddAlgorithmPage = () => {
       <button className="add_button" onClick={onAddClick}>
         add
       </button>
+      {showGoodMessage && (
+        <p className="AAP_good_message">algorithm was added succecfully</p>
+      )}
+      {showBadMessage && (
+        <p className="AAP_bad_message">
+          there was a problem adding your algorithm
+        </p>
+      )}
     </div>
   );
 };
