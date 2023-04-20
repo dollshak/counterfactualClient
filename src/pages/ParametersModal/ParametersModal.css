@@ -34,7 +34,7 @@
     justify-content: flex-end;
 }
 
-.close_modal{
+.close_modal, .save_button{
     background-color: transparent;
     border: none;
     font-size: 25px;

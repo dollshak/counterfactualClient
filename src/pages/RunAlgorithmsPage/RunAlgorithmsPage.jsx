@@ -14,6 +14,7 @@ const RunAlgorithmsPage = () => {
   const [modelFile, setModelFile] = useState();
   const [modelInputsFile, setModelInputsFile] = useState();
   const [algosInputs, setAlgosInputs] = useState({});
+  const [showModelInputI, setShowModelInputI] = useState(false);
   const api = Axios.create({
     baseURL: "http://127.0.0.1:5000",
   });
@@ -93,6 +94,8 @@ const RunAlgorithmsPage = () => {
     }
   };
 
+  const onIClick = () => {};
+
   return (
     <div className="RunAlgorithmsPage">
       <button className="back_button" onClick={onBackClick}>
@@ -141,6 +144,9 @@ const RunAlgorithmsPage = () => {
           />
         </div>
         <div className="model_upload">
+          <button className="RAP_i_button" onClick={onIClick}>
+            i
+          </button>
           <p className="RAP_MU_title">upload model parameters:</p>
           <input
             type="file"

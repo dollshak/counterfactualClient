@@ -43,6 +43,7 @@
   .add_params_button{
     width: 100px;
     margin-left: 5px;
+    align-items: center;
   }
 
   .choose_model{
