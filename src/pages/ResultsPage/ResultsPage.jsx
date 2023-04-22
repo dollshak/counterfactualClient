@@ -32,9 +32,6 @@ const ResultsPage = () => {
     navigate("/");
   };
 
-  console.log("page input list " + inputList);
-  console.log(Object.values(reqbody.input));
-
   return (
     <div className="resultsPage-container">
       <button className="back_button" onClick={onBackClick}>

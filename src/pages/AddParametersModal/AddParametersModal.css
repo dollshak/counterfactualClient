@@ -1,13 +1,10 @@
 .add_modal_background{
-    width: 50vw;
     height: 10vh;
-    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
     top: 1px;
     bottom: 300px;
-    margin-left: 500px;
 }
 
 .add_modal_container{

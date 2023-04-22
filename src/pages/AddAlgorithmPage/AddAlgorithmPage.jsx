@@ -61,7 +61,6 @@ const AddAlgorithmPage = () => {
         },
       })
       .then((res) => {
-        console.log(res?.data);
         setShowGoodMessage(true);
         setShowBadMessage(false);
       })

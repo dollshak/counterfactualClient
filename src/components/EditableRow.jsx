@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Dropdown from "./Dropdown/Dropdown";
 
 function EditableRow({
   param,
@@ -6,7 +7,11 @@ function EditableRow({
   setEditedDesc,
   setEditedTypes,
   onSave,
+  acceptedTypes,
 }) {
+  const [dropdownSelectedOptions, setDropdownSelectedOptions] = useState(
+    param.acceptedTypes
+  );
   const onCancel = () => {
     setEditRow(null);
   };
@@ -23,13 +28,19 @@ function EditableRow({
         ></input>
       </td>
       <td className="types">
-        <input
+        {/* <input
           type="text"
           required="required"
           placeholder={param.accepted_types}
           name="acceptedTypes"
           onChange={(event) => setEditedTypes(event.target.value)}
-        ></input>
+        ></input> */}
+        <Dropdown
+          options={acceptedTypes}
+          selectedOptions={dropdownSelectedOptions}
+          setSelectedOptions={setDropdownSelectedOptions}
+          setSelectedOptionsList={setEditedTypes}
+        ></Dropdown>
       </td>
       <td>
         <button

@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import Dropdown from "../../components/Dropdown/Dropdown";
 import EditableRow from "../../components/EditableRow";
 import ReadOnlyRow from "../../components/ReadOnlyRow";
 
@@ -10,11 +11,21 @@ export const AddParametersModal = ({
 }) => {
   const [newName, setNewName] = useState("");
   const [newDesc, setNewDesc] = useState("");
-  const [newAcceptedTypes, setNewAcceptedTypes] = useState("");
+  const [newAcceptedTypes, setNewAcceptedTypes] = useState([]);
   const [showParamExistMessage, setShowParamExistMessage] = useState(false);
   const [editRow, setEditRow] = useState(null);
   const [editedDesc, setEditedDesc] = useState("");
-  const [editedTypes, setEditedTypes] = useState("");
+  const [editedTypes, setEditedTypes] = useState([]);
+  const [dropdownSelectedOptions, setDropdownSelectedOptions] = useState([]);
+
+  const acceptedTypes = [
+    { value: "float", label: "float" },
+    { value: "string", label: "string" },
+    { value: "boolean", label: "boolean" },
+    { value: "dictionary", label: "dictionary" },
+    { value: "list", label: "list" },
+  ];
+
   if (!open) return null;
 
   const onDelete = (param_name) => {
@@ -51,12 +62,11 @@ export const AddParametersModal = ({
   const onDescChange = (event) => {
     setNewDesc(event.target.value);
   };
-  const onTypesChange = (event) => {
-    setNewAcceptedTypes(event.target.value);
-  };
 
   const onAddParamClick = (event) => {
     event.preventDefault();
+    console.log("on click " + newAcceptedTypes);
+
     const isParamNameExists = paramsList.some(
       (param) => param.param_name === newName
     );
@@ -69,11 +79,13 @@ export const AddParametersModal = ({
         description: newDesc,
         accepted_types: newAcceptedTypes,
       };
+      console.log("new param " + JSON.stringify(newParam));
       const updatedParamsList = [...paramsList, newParam];
       setParamsList(updatedParamsList);
       setNewName("");
       setNewDesc("");
-      setNewAcceptedTypes("");
+      setNewAcceptedTypes([]);
+      setDropdownSelectedOptions([]);
     }
   };
 
@@ -85,7 +97,9 @@ export const AddParametersModal = ({
             x
           </button>
         </div>
+
         <h1 className="add_title">parameters</h1>
+
         <div className="table_container">
           <form className="APM_form">
             <table>
@@ -107,6 +121,7 @@ export const AddParametersModal = ({
                         setEditedDesc={setEditedDesc}
                         setEditedTypes={setEditedTypes}
                         onSave={onSave}
+                        acceptedTypes={acceptedTypes}
                       />
                     ) : (
                       <ReadOnlyRow
@@ -135,12 +150,18 @@ export const AddParametersModal = ({
                     />
                   </td>
                   <td>
-                    <input
+                    {/* <input
                       className="types_input"
                       type="text"
                       value={newAcceptedTypes}
                       onChange={onTypesChange}
-                    />
+                    /> */}
+                    <Dropdown
+                      options={acceptedTypes}
+                      selectedOptions={dropdownSelectedOptions}
+                      setSelectedOptions={setDropdownSelectedOptions}
+                      setSelectedOptionsList={setNewAcceptedTypes}
+                    ></Dropdown>
                   </td>
                   <td>
                     <button

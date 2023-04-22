@@ -49,7 +49,6 @@ const RunAlgorithmsPage = () => {
         algosInputs[algorithm.name][param.param_name] = "se";
       });
     }
-    console.log(algosInputs);
   };
 
   const algorithmChecked = (algorithm) => {

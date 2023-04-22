@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 export const ParametersModal = ({ open, onClose, algo, algosInputs }) => {
   if (!open) return null;
@@ -6,8 +6,38 @@ export const ParametersModal = ({ open, onClose, algo, algosInputs }) => {
 
   const onParamChange = (event, arg) => {
     tempAlgoInputs[arg.param_name] = event.target.value;
-    console.log(algosInputs[algo.name]);
-    console.log(tempAlgoInputs);
+  };
+
+  //to change
+  const findArgType = (argName) => {
+    const arg = algo.argument_lst.find((arg) => arg.param_name === argName);
+    const type = arg.accepted_types;
+    return type;
+  };
+
+  const argStrToVal = (argStr, argType) => {
+    switch (argType) {
+      case "boolean":
+        return argStr === "True" || argStr === "true";
+      case "float":
+        return parseFloat(argStr);
+      case "string":
+        return argStr;
+      case "dictionary":
+        return JSON.parse(argStr);
+      case "list":
+        return JSON.parse(argStr);
+      default:
+        return argStr;
+    }
+  };
+
+  const algoStrInputsToVals = (tempAlgoInputs) => {
+    for (const argName in tempAlgoInputs) {
+      const type = findArgType(argName);
+      const argStr = tempAlgoInputs[argName];
+      const argVal = argStrToVal(argStr, type);
+    }
   };
 
   const onSave = () => {

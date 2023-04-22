@@ -1,11 +1,12 @@
 import React from "react";
 
 const ReadOnlyRow = ({ param, onDelete, onEdit }) => {
+  console.log(param.accepted_types);
   return (
     <tr id={param.param_name}>
       <td className="name">{param.param_name}</td>
       <td className="desc">{param.description}</td>
-      <td className="types">{param.accepted_types}</td>
+      <td className="types">{param.accepted_types.join(", ")}</td>
       <td>
         <button
           className="edit_button"
