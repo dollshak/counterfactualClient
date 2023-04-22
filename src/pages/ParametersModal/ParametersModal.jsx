@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-export const ParametersModal = ({ open, onClose, algo, algosInputs }) => {
+export const ParametersModal = ({
+  open,
+  onClose,
+  algo,
+  algosInputs,
+  setAlgosInputs,
+}) => {
   const [inputTypes, setInputTypes] = useState({});
+  const [tempAlgoInputs, setTempAlgoInputs] = useState(
+    algo ? { ...algosInputs[algo.name] } : {}
+  );
 
   if (!open) return null;
-  const tempAlgoInputs = { ...algosInputs[algo.name] };
 
   const onParamChange = (event, arg) => {
-    tempAlgoInputs[arg.param_name] = event.target.value;
-    console.log(event.target.value);
-  };
-
-  //to change
-  const findArgType = (argName) => {
-    const arg = algo.argument_lst.find((arg) => arg.param_name === argName);
-    const type = arg.accepted_types;
-    return type;
+    setTempAlgoInputs((prevInputs) => ({
+      ...prevInputs,
+      [arg.param_name]: event.target.value,
+    }));
   };
 
   const argStrToVal = (argStr, argType) => {
@@ -43,21 +46,53 @@ export const ParametersModal = ({ open, onClose, algo, algosInputs }) => {
     });
   };
 
+  // const algoStrInputsToVals = (tempAlgoInputs) => {
+  //   for (const argName in tempAlgoInputs) {
+  //     const type = inputTypes[argName];
+  //     //console.log(type);
+  //     const argStr = tempAlgoInputs[argName];
+  //     //console.log(argStr);
+  //     const argVal = argStrToVal(argStr, type);
+  //     //console.log(argVal);
+  //     // tempAlgoInputs[argName] = argVal;
+  //     setTempAlgoInputs((prevState) => {
+  //       return {
+  //         ...prevState,
+  //         [argName]: argVal,
+  //       };
+  //     });
+  //   }
+
+  //   console.log(JSON.stringify(tempAlgoInputs));
+  //   return tempAlgoInputs;
+  // };
+
   const algoStrInputsToVals = (tempAlgoInputs) => {
-    for (const argName in tempAlgoInputs) {
-      const type = inputTypes[argName];
-      const argStr = tempAlgoInputs[argName];
-      const argVal = argStrToVal(argStr, type);
-      tempAlgoInputs[argName] = argVal;
-    }
-    return tempAlgoInputs;
+    const updatedInputs = Object.entries(tempAlgoInputs).reduce(
+      (acc, [key, value]) => {
+        const type = inputTypes[key];
+        const updatedValue = argStrToVal(value, type);
+        return {
+          ...acc,
+          [key]: updatedValue,
+        };
+      },
+      {}
+    );
+
+    setTempAlgoInputs(updatedInputs);
+    console.log(JSON.stringify(updatedInputs));
+    return updatedInputs;
   };
 
   const onSave = () => {
     const tempalgoInputVals = algoStrInputsToVals(tempAlgoInputs);
-    console.log("tempalgoInputVals " + JSON.stringify(tempalgoInputVals));
-    algosInputs[algo.name] = tempAlgoInputs;
-    // onClose();
+    setAlgosInputs((prevState) => ({
+      ...prevState,
+      [algo.name]: tempalgoInputVals,
+    }));
+
+    onClose();
   };
   return (
     <div className="modal_background">
@@ -77,12 +112,39 @@ export const ParametersModal = ({ open, onClose, algo, algosInputs }) => {
               <form>
                 <label>
                   {arg.param_name + " "}
-                  <input
-                    className="input"
-                    type="text"
-                    placeholder={tempAlgoInputs[arg.param_name]}
-                    onChange={(event) => onParamChange(event, arg)}
-                  />
+
+                  {inputTypes[arg.param_name] &&
+                    (inputTypes[arg.param_name] === "string" ||
+                      inputTypes[arg.param_name] === "float") && (
+                      <input
+                        className="input"
+                        type="text"
+                        placeholder={tempAlgoInputs[arg.param_name]}
+                        onChange={(event) => onParamChange(event, arg)}
+                      />
+                    )}
+
+                  {inputTypes[arg.param_name] &&
+                    inputTypes[arg.param_name] === "boolean" && (
+                      <div>
+                        <input
+                          type="radio"
+                          id="true"
+                          value="true"
+                          name="boolean"
+                          onChange={(event) => onParamChange(event, arg)}
+                        />
+                        <label htmlFor="true">true</label>
+                        <input
+                          type="radio"
+                          id="false"
+                          value="false"
+                          name="boolean"
+                          onChange={(event) => onParamChange(event, arg)}
+                        />
+                        <label htmlFor="false">false</label>
+                      </div>
+                    )}
                 </label>
               </form>
               <div className="desc_and_types">

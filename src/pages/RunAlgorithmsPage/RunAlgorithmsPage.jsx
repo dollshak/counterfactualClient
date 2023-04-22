@@ -28,6 +28,7 @@ const RunAlgorithmsPage = () => {
     formData.append("arg_list", arg_list);
     formData.append("model_file", modelFile);
     formData.append("model_input", modelInputsFile);
+    console.log("algos inputs submit " + JSON.stringify(algosInputs));
     api
       .post("/runAlgorithm", formData, {
         headers: {
@@ -43,7 +44,6 @@ const RunAlgorithmsPage = () => {
   };
 
   const addAlgoToList = (algorithm) => {
-    // console.log("algorithm " + JSON.stringify(algorithm));
     if (!(algorithm.name in algosInputs)) {
       algosInputs[algorithm.name] = {};
       algorithm.argument_lst.forEach((param) => {
@@ -131,6 +131,7 @@ const RunAlgorithmsPage = () => {
                 onClose={() => setOpenModal(false)}
                 algo={algorithmToAddParams}
                 algosInputs={algosInputs}
+                setAlgosInputs={setAlgosInputs}
               />
             </div>
           ))}
