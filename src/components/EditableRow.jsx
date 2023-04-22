@@ -10,8 +10,14 @@ function EditableRow({
   acceptedTypes,
 }) {
   const [dropdownSelectedOptions, setDropdownSelectedOptions] = useState(
-    param.acceptedTypes
+    param.accepted_types.map((type) => {
+      return {
+        value: type,
+        label: type,
+      };
+    })
   );
+
   const onCancel = () => {
     setEditRow(null);
   };
@@ -28,13 +34,6 @@ function EditableRow({
         ></input>
       </td>
       <td className="types">
-        {/* <input
-          type="text"
-          required="required"
-          placeholder={param.accepted_types}
-          name="acceptedTypes"
-          onChange={(event) => setEditedTypes(event.target.value)}
-        ></input> */}
         <Dropdown
           options={acceptedTypes}
           selectedOptions={dropdownSelectedOptions}

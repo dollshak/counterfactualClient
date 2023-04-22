@@ -37,6 +37,8 @@ export const AddParametersModal = ({
 
   const onEdit = (event, param) => {
     event.preventDefault();
+    setEditedTypes(param.accepted_types);
+    setEditedDesc(param.description);
     setEditRow(param.param_name);
   };
 
@@ -65,7 +67,6 @@ export const AddParametersModal = ({
 
   const onAddParamClick = (event) => {
     event.preventDefault();
-    console.log("on click " + newAcceptedTypes);
 
     const isParamNameExists = paramsList.some(
       (param) => param.param_name === newName
@@ -79,7 +80,6 @@ export const AddParametersModal = ({
         description: newDesc,
         accepted_types: newAcceptedTypes,
       };
-      console.log("new param " + JSON.stringify(newParam));
       const updatedParamsList = [...paramsList, newParam];
       setParamsList(updatedParamsList);
       setNewName("");

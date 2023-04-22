@@ -1,7 +1,6 @@
 import React from "react";
 
 const ReadOnlyRow = ({ param, onDelete, onEdit }) => {
-  console.log(param.accepted_types);
   return (
     <tr id={param.param_name}>
       <td className="name">{param.param_name}</td>
