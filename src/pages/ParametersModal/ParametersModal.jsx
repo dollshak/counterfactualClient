@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export const ParametersModal = ({ open, onClose, algo, algosInputs }) => {
+  const [inputTypes, setInputTypes] = useState({});
+
   if (!open) return null;
   const tempAlgoInputs = { ...algosInputs[algo.name] };
 
   const onParamChange = (event, arg) => {
     tempAlgoInputs[arg.param_name] = event.target.value;
+    console.log(event.target.value);
   };
 
   //to change
@@ -32,17 +35,29 @@ export const ParametersModal = ({ open, onClose, algo, algosInputs }) => {
     }
   };
 
+  const onTypeChoose = (event, arg) => {
+    const argName = arg.param_name;
+    const argType = event.target.value;
+    setInputTypes((prevInputTypes) => {
+      return { ...prevInputTypes, [argName]: argType };
+    });
+  };
+
   const algoStrInputsToVals = (tempAlgoInputs) => {
     for (const argName in tempAlgoInputs) {
-      const type = findArgType(argName);
+      const type = inputTypes[argName];
       const argStr = tempAlgoInputs[argName];
       const argVal = argStrToVal(argStr, type);
+      tempAlgoInputs[argName] = argVal;
     }
+    return tempAlgoInputs;
   };
 
   const onSave = () => {
+    const tempalgoInputVals = algoStrInputsToVals(tempAlgoInputs);
+    console.log("tempalgoInputVals " + JSON.stringify(tempalgoInputVals));
     algosInputs[algo.name] = tempAlgoInputs;
-    onClose();
+    // onClose();
   };
   return (
     <div className="modal_background">
@@ -72,7 +87,21 @@ export const ParametersModal = ({ open, onClose, algo, algosInputs }) => {
               </form>
               <div className="desc_and_types">
                 <p className="desc">{arg.description}</p>
-                <p className="types">accepted types: {arg.accepted_types}</p>
+                <p className="types">accepted types:</p>
+                <div className="PM_types">
+                  {arg.accepted_types.map((type, index) => (
+                    <div>
+                      <input
+                        type="radio"
+                        id={type}
+                        value={type}
+                        name={arg.param_name}
+                        onChange={(event) => onTypeChoose(event, arg)}
+                      />
+                      <label htmlFor={type}>{type}</label>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           ))}

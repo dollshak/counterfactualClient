@@ -115,6 +115,12 @@
     font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.PM_types{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
 .new_param{
     margin-left: 5%;
 }

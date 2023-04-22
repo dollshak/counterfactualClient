@@ -43,10 +43,11 @@ const RunAlgorithmsPage = () => {
   };
 
   const addAlgoToList = (algorithm) => {
+    // console.log("algorithm " + JSON.stringify(algorithm));
     if (!(algorithm.name in algosInputs)) {
       algosInputs[algorithm.name] = {};
       algorithm.argument_lst.forEach((param) => {
-        algosInputs[algorithm.name][param.param_name] = "se";
+        algosInputs[algorithm.name][param.param_name] = "";
       });
     }
   };
@@ -124,6 +125,7 @@ const RunAlgorithmsPage = () => {
               >
                 add params
               </button>
+
               <ParametersModal
                 open={openModal}
                 onClose={() => setOpenModal(false)}
