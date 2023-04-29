@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ParametersModal } from "../ParametersModal/ParametersModal";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import SimpleTreeView from "../ParametersModal/dictionaryAddition/dictionaryAddition";
 
 const RunAlgorithmsPage = () => {
   const navigate = useNavigate();
@@ -101,6 +102,7 @@ const RunAlgorithmsPage = () => {
       <button className="back_button" onClick={onBackClick}>
         back
       </button>
+      {SimpleTreeView()}
       <div className="run_algo_page_container">
         <h1 className="run_algo_title">run algorithms</h1>
         <p className="choose_title">choose algorithms to run:</p>
