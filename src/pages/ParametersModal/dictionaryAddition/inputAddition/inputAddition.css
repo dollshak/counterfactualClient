@@ -1,0 +1,10 @@
+.IA_types{
+    display: flex;
+    flex-direction: row;
+    margin-left: 50px;
+}
+
+.inputAddition-container{
+    display: flex;
+    flex-direction: row;
+}

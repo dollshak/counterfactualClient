@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { ParametersModal } from "../ParametersModal/ParametersModal";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-import SimpleTreeView from "../ParametersModal/dictionaryAddition/dictionaryAddition";
+import DictionaryAddition from "../ParametersModal/dictionaryAddition/dictionaryAddition";
+import DictionaryForm from "../ParametersModal/dictionaryForm/dictionaryForm";
 
 const RunAlgorithmsPage = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const RunAlgorithmsPage = () => {
         },
       })
       .then((res) => {
-        console.log(res?.data);
+        navigate("/results", { state: res.data });
       })
       .catch((err) => {
         console.log(err);
@@ -102,7 +103,7 @@ const RunAlgorithmsPage = () => {
       <button className="back_button" onClick={onBackClick}>
         back
       </button>
-      {SimpleTreeView()}
+      {/* <DictionaryForm></DictionaryForm> */}
       <div className="run_algo_page_container">
         <h1 className="run_algo_title">run algorithms</h1>
         <p className="choose_title">choose algorithms to run:</p>

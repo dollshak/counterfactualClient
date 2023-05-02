@@ -1,25 +1,27 @@
 import Table from "./Table/Table";
 import "./ResultsPage.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ResultsPage = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const { reqbody } = state;
 
-  const reqbody = {
-    input: { size: 4, color: 2 },
-    output: {
-      alibi: [
-        [5, 8],
-        [2, 4],
-      ],
-      dummy: [
-        [12, 4],
-        [5, 5],
-        [7, 8],
-      ],
-      dice: [[6, 7]],
-    },
-  };
+  // const reqbody = {
+  //   input: { size: 4, color: 2 },
+  //   output: {
+  //     alibi: [
+  //       [5, 8],
+  //       [2, 4],
+  //     ],
+  //     dummy: [
+  //       [12, 4],
+  //       [5, 5],
+  //       [7, 8],
+  //     ],
+  //     dice: [[6, 7]],
+  //   },
+  // };
 
   const inputList = Object.entries(reqbody.output).map(([key, value]) => [
     key,

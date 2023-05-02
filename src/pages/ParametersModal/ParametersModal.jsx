@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import DictionaryAddition from "./dictionaryAddition/dictionaryAddition";
+import DictionaryForm from "./dictionaryForm/dictionaryForm";
 
 export const ParametersModal = ({
   open,
@@ -122,6 +124,10 @@ export const ParametersModal = ({
                         placeholder={tempAlgoInputs[arg.param_name]}
                         onChange={(event) => onParamChange(event, arg)}
                       />
+                    )}
+                  {inputTypes[arg.param_name] &&
+                    inputTypes[arg.param_name] === "dictionary" && (
+                      <DictionaryForm></DictionaryForm>
                     )}
 
                   {inputTypes[arg.param_name] &&

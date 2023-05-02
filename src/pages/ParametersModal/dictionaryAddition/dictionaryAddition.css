@@ -1,4 +1,4 @@
-/* .MuiTreeView-root {
-    width: 400px;
-  }
-   */
+.MuiTreeItem-label{
+  display: flex;
+  flex-direction: row;
+}

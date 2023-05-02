@@ -28,7 +28,10 @@
     
 }
 
-
+.modal_background{
+    display: flex;
+    flex-direction: column;
+}
 .title_close_button{
     display: flex;
     justify-content: flex-end;
