@@ -45,9 +45,6 @@ const AddAlgorithmPage = () => {
       return;
     }
     var formData = new FormData();
-    var data = [
-      { param_name: "shape", description: "", accepted_types: ["float"] },
-    ];
     formData.append("file_content", algorithmFile);
     formData.append("name", algoName);
     formData.append("argument_lst", JSON.stringify(parametersList));
@@ -77,8 +74,6 @@ const AddAlgorithmPage = () => {
       setAlgorithmFile(e.target.files[0]);
     }
   };
-
-  console.log(parametersList);
 
   return (
     <div className="AddAlgorithmPage">

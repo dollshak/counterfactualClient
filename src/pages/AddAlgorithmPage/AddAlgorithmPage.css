@@ -36,15 +36,29 @@
 
 }
 
-/* .desc_input{
-    height: 3cm;
-    width: 10cm;
-} */
+.desc_input, .info_input{
+    height: 100px;
+    width: 200px;
+}
+
+.add_name_input{
+    width: 200px;
+}
+
+
+
+
 
 .main_title{
     margin-bottom: 50px;
 }
 
+form{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+}
 
 
 .add_button, .add_arguments{

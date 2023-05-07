@@ -49,7 +49,7 @@ function EditableRow({
           save
         </button>
         <button className="ER_delete_button" onClick={onCancel}>
-          cancle
+          cancel
         </button>
       </td>
     </tr>

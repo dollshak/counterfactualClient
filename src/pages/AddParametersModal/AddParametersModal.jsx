@@ -142,7 +142,7 @@ export const AddParametersModal = ({
                     />
                   </td>
                   <td>
-                    <input
+                    <textarea
                       className="desc_input"
                       type="text"
                       value={newDesc}
@@ -150,12 +150,6 @@ export const AddParametersModal = ({
                     />
                   </td>
                   <td>
-                    {/* <input
-                      className="types_input"
-                      type="text"
-                      value={newAcceptedTypes}
-                      onChange={onTypesChange}
-                    /> */}
                     <Dropdown
                       options={acceptedTypes}
                       selectedOptions={dropdownSelectedOptions}
