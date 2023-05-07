@@ -40,6 +40,10 @@
     font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
+  .algo_name{
+    margin-left: 5px;
+  }
+
   .add_params_button{
     width: 100px;
     margin-left: 5px;

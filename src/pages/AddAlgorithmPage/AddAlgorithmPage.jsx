@@ -46,14 +46,15 @@ const AddAlgorithmPage = () => {
     }
     var formData = new FormData();
     var data = [
-      { param_name: "shape", description: "", accepted_types: "int" },
+      { param_name: "shape", description: "", accepted_types: ["float"] },
     ];
     formData.append("file_content", algorithmFile);
     formData.append("name", algoName);
-    formData.append("argument_lst", JSON.stringify(data));
+    formData.append("argument_lst", JSON.stringify(parametersList));
     formData.append("description", algoDesc);
     formData.append("additional_info", algoInfo);
     formData.append("output_example", ["1"]);
+    formData.append("type", JSON.stringify(["regression"]));
     api
       .post("/algorithm", formData, {
         headers: {
@@ -76,6 +77,8 @@ const AddAlgorithmPage = () => {
       setAlgorithmFile(e.target.files[0]);
     }
   };
+
+  console.log(parametersList);
 
   return (
     <div className="AddAlgorithmPage">

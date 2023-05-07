@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import DictionaryAddition from "./dictionaryAddition/dictionaryAddition";
 import DictionaryForm from "./dictionaryForm/dictionaryForm";
 
 export const ParametersModal = ({
@@ -32,7 +31,11 @@ export const ParametersModal = ({
       case "string":
         return argStr;
       case "dictionary":
-        return JSON.parse(argStr);
+        console.log(argStr);
+        console.log("before distionary parse");
+        const discinaryVal = JSON.parse(argStr);
+        console.log("after distionary parse");
+        return discinaryVal;
       case "list":
         return JSON.parse(argStr);
       default:
@@ -117,7 +120,9 @@ export const ParametersModal = ({
 
                   {inputTypes[arg.param_name] &&
                     (inputTypes[arg.param_name] === "string" ||
-                      inputTypes[arg.param_name] === "float") && (
+                      inputTypes[arg.param_name] === "float" ||
+                      inputTypes[arg.param_name] === "list" ||
+                      inputTypes[arg.param_name] === "dictionary") && (
                       <input
                         className="input"
                         type="text"
@@ -125,10 +130,10 @@ export const ParametersModal = ({
                         onChange={(event) => onParamChange(event, arg)}
                       />
                     )}
-                  {inputTypes[arg.param_name] &&
+                  {/* {inputTypes[arg.param_name] &&
                     inputTypes[arg.param_name] === "dictionary" && (
                       <DictionaryForm></DictionaryForm>
-                    )}
+                    )} */}
 
                   {inputTypes[arg.param_name] &&
                     inputTypes[arg.param_name] === "boolean" && (

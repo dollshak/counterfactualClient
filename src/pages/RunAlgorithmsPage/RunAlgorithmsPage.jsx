@@ -72,7 +72,7 @@ const RunAlgorithmsPage = () => {
 
   useEffect(() => {
     api
-      .get("/algos")
+      .get("/getAllAlgorithms")
       .then((res) => {
         setAlgorithmsList(res?.data);
       })
@@ -149,9 +149,9 @@ const RunAlgorithmsPage = () => {
           />
         </div>
         <div className="model_upload">
-          <button className="RAP_i_button" onClick={onIClick}>
+          {/* <button className="RAP_i_button" onClick={onIClick}>
             i
-          </button>
+          </button> */}
           <p className="RAP_MU_title">upload model parameters:</p>
           <input
             type="file"
