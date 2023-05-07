@@ -7,6 +7,7 @@ import {
   Routes ,
   Route,
 } from "react-router-dom";
+import { ParametersModal } from './pages/ParametersModal/ParametersModal';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/addAlgorithm" element={<AddAlgorithmPage/>}/>
         <Route path="/runAlgorithms" element={<RunAlgorithmsPage/>}/>
         <Route path="/results" element={<ResultsPage/>}/>
+        <Route path="/fillParams" element={<ParametersModal/>}/>
       </Routes>
     </div>
   );

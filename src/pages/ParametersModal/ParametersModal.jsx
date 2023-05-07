@@ -1,5 +1,6 @@
+import { type } from "@testing-library/user-event/dist/type";
 import React, { useState } from "react";
-import DictionaryForm from "./dictionaryForm/dictionaryForm";
+import DictionaryFormModal from "./dictionaryForm/dictionaryFormModal";
 
 export const ParametersModal = ({
   open,
@@ -9,6 +10,7 @@ export const ParametersModal = ({
   setAlgosInputs,
 }) => {
   const [inputTypes, setInputTypes] = useState({});
+  const [dictionaryModalOpen, setDictionaryModalOpen] = useState(false);
   const [tempAlgoInputs, setTempAlgoInputs] = useState(
     algo ? { ...algosInputs[algo.name] } : {}
   );
@@ -51,27 +53,6 @@ export const ParametersModal = ({
     });
   };
 
-  // const algoStrInputsToVals = (tempAlgoInputs) => {
-  //   for (const argName in tempAlgoInputs) {
-  //     const type = inputTypes[argName];
-  //     //console.log(type);
-  //     const argStr = tempAlgoInputs[argName];
-  //     //console.log(argStr);
-  //     const argVal = argStrToVal(argStr, type);
-  //     //console.log(argVal);
-  //     // tempAlgoInputs[argName] = argVal;
-  //     setTempAlgoInputs((prevState) => {
-  //       return {
-  //         ...prevState,
-  //         [argName]: argVal,
-  //       };
-  //     });
-  //   }
-
-  //   console.log(JSON.stringify(tempAlgoInputs));
-  //   return tempAlgoInputs;
-  // };
-
   const algoStrInputsToVals = (tempAlgoInputs) => {
     const updatedInputs = Object.entries(tempAlgoInputs).reduce(
       (acc, [key, value]) => {
@@ -91,14 +72,22 @@ export const ParametersModal = ({
   };
 
   const onSave = () => {
+    console.log("temp algo inputs " + JSON.stringify(tempAlgoInputs));
     const tempalgoInputVals = algoStrInputsToVals(tempAlgoInputs);
     setAlgosInputs((prevState) => ({
       ...prevState,
       [algo.name]: tempalgoInputVals,
     }));
 
+    console.log("algo inputs " + JSON.stringify(algosInputs));
+
     onClose();
   };
+
+  const onAddDictClick = () => {
+    setDictionaryModalOpen(true);
+  };
+
   return (
     <div className="modal_background">
       <div className="modal_container">
@@ -114,26 +103,25 @@ export const ParametersModal = ({
         <div className="params_list">
           {algo.argument_lst.map((arg) => (
             <div className="param" key={arg.param_name}>
-              <form>
+              <form className="input-form">
                 <label>
-                  {arg.param_name + " "}
+                  {arg.param_name}
 
                   {inputTypes[arg.param_name] &&
                     (inputTypes[arg.param_name] === "string" ||
                       inputTypes[arg.param_name] === "float" ||
-                      inputTypes[arg.param_name] === "list" ||
-                      inputTypes[arg.param_name] === "dictionary") && (
+                      inputTypes[arg.param_name] === "list") && (
                       <input
                         className="input"
                         type="text"
-                        placeholder={tempAlgoInputs[arg.param_name]}
+                        placeholder={""}
+                        // placeholder={tempAlgoInputs[arg.param_name]}
                         onChange={(event) => onParamChange(event, arg)}
                       />
                     )}
-                  {/* {inputTypes[arg.param_name] &&
-                    inputTypes[arg.param_name] === "dictionary" && (
-                      <DictionaryForm></DictionaryForm>
-                    )} */}
+                  {inputTypes[arg.param_name] === "dictionary" && (
+                    <button onClick={onAddDictClick}>add dictionary</button>
+                  )}
 
                   {inputTypes[arg.param_name] &&
                     inputTypes[arg.param_name] === "boolean" && (
@@ -158,9 +146,9 @@ export const ParametersModal = ({
                     )}
                 </label>
               </form>
+
               <div className="desc_and_types">
-                <p className="desc">{arg.description}</p>
-                <p className="types">accepted types:</p>
+                <p className="types">type:</p>
                 <div className="PM_types">
                   {arg.accepted_types.map((type, index) => (
                     <div>
@@ -178,6 +166,13 @@ export const ParametersModal = ({
               </div>
             </div>
           ))}
+
+          {
+            <DictionaryFormModal
+              setDictModalOpen={setDictionaryModalOpen}
+              open={dictionaryModalOpen}
+            ></DictionaryFormModal>
+          }
         </div>
         <div className="save_button_container">
           <button className="save_button" onClick={onSave}>

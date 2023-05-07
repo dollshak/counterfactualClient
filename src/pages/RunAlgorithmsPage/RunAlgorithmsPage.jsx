@@ -3,7 +3,7 @@ import { ParametersModal } from "../ParametersModal/ParametersModal";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import DictionaryAddition from "../ParametersModal/dictionaryAddition/dictionaryAddition";
-import DictionaryForm from "../ParametersModal/dictionaryForm/dictionaryForm";
+import DictionaryFormModal from "../ParametersModal/dictionaryForm/dictionaryFormModal";
 
 const RunAlgorithmsPage = () => {
   const navigate = useNavigate();
@@ -30,6 +30,8 @@ const RunAlgorithmsPage = () => {
     formData.append("arg_list", arg_list);
     formData.append("model_file", modelFile);
     formData.append("model_input", modelInputsFile);
+
+    console.log(formData);
     console.log("algos inputs submit " + JSON.stringify(algosInputs));
     api
       .post("/runAlgorithm", formData, {
@@ -66,6 +68,7 @@ const RunAlgorithmsPage = () => {
   };
 
   const onAddParamsClick = (algorithm) => {
+    console.log(algorithm);
     setAlgorithmToAddParams(algorithm);
     setOpenModal(true);
   };
@@ -103,7 +106,6 @@ const RunAlgorithmsPage = () => {
       <button className="back_button" onClick={onBackClick}>
         back
       </button>
-      {/* <DictionaryForm></DictionaryForm> */}
       <div className="run_algo_page_container">
         <h1 className="run_algo_title">run algorithms</h1>
         <p className="choose_title">choose algorithms to run:</p>
@@ -136,6 +138,7 @@ const RunAlgorithmsPage = () => {
                 algosInputs={algosInputs}
                 setAlgosInputs={setAlgosInputs}
               />
+              {console.log(algosInputs)}
             </div>
           ))}
         </div>
