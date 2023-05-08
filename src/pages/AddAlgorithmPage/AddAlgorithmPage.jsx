@@ -99,7 +99,7 @@ const AddAlgorithmPage = () => {
           <form>
             <label className="desc_title">
               add description
-              <input
+              <textarea
                 className="desc_input"
                 type="text"
                 value={algoDesc}
@@ -113,7 +113,7 @@ const AddAlgorithmPage = () => {
           <form>
             <label className="info_title">
               add additional info
-              <input
+              <textarea
                 className="info_input"
                 type="text"
                 value={algoInfo}

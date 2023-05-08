@@ -1,5 +1,6 @@
 import { type } from "@testing-library/user-event/dist/type";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import DictionaryFormModal from "./dictionaryForm/dictionaryFormModal";
 
 export const ParametersModal = ({
@@ -11,11 +12,22 @@ export const ParametersModal = ({
 }) => {
   const [inputTypes, setInputTypes] = useState({});
   const [dictionaryModalOpen, setDictionaryModalOpen] = useState(false);
-  const [tempAlgoInputs, setTempAlgoInputs] = useState(
-    algo ? { ...algosInputs[algo.name] } : {}
-  );
+  const [tempAlgoInputs, setTempAlgoInputs] = useState({});
+  // const [tempAlgoInputs, setTempAlgoInputs] = useState(
+  //   algo ? { ...algosInputs[algo.name] } : {}
+  // );
+
+  useEffect(() => {
+    setTempAlgoInputs(algo ? { ...algosInputs[algo.name] } : {});
+    console.log("temp " + JSON.stringify(tempAlgoInputs));
+  }, [algo]);
 
   if (!open) return null;
+
+  console.log(algo);
+  console.log(tempAlgoInputs);
+  console.log(algosInputs);
+  console.log({ ...algosInputs[algo.name] });
 
   const onParamChange = (event, arg) => {
     setTempAlgoInputs((prevInputs) => ({
@@ -33,13 +45,13 @@ export const ParametersModal = ({
       case "string":
         return argStr;
       case "dictionary":
-        console.log(argStr);
-        console.log("before distionary parse");
         const discinaryVal = JSON.parse(argStr);
-        console.log("after distionary parse");
         return discinaryVal;
       case "list":
-        return JSON.parse(argStr);
+        console.log(argStr);
+        const parsedList = JSON.parse(argStr);
+        console.log(parsedList);
+        return parsedList;
       default:
         return argStr;
     }
@@ -67,19 +79,16 @@ export const ParametersModal = ({
     );
 
     setTempAlgoInputs(updatedInputs);
-    console.log(JSON.stringify(updatedInputs));
     return updatedInputs;
   };
 
   const onSave = () => {
-    console.log("temp algo inputs " + JSON.stringify(tempAlgoInputs));
+    console.log(tempAlgoInputs);
     const tempalgoInputVals = algoStrInputsToVals(tempAlgoInputs);
     setAlgosInputs((prevState) => ({
       ...prevState,
       [algo.name]: tempalgoInputVals,
     }));
-
-    console.log("algo inputs " + JSON.stringify(algosInputs));
 
     onClose();
   };
@@ -110,7 +119,8 @@ export const ParametersModal = ({
                   {inputTypes[arg.param_name] &&
                     (inputTypes[arg.param_name] === "string" ||
                       inputTypes[arg.param_name] === "float" ||
-                      inputTypes[arg.param_name] === "list") && (
+                      inputTypes[arg.param_name] === "list" ||
+                      inputTypes[arg.param_name] === "dictionary") && (
                       <input
                         className="input"
                         type="text"
@@ -167,12 +177,12 @@ export const ParametersModal = ({
             </div>
           ))}
 
-          {
+          {/* {
             <DictionaryFormModal
               setDictModalOpen={setDictionaryModalOpen}
               open={dictionaryModalOpen}
             ></DictionaryFormModal>
-          }
+          } */}
         </div>
         <div className="save_button_container">
           <button className="save_button" onClick={onSave}>

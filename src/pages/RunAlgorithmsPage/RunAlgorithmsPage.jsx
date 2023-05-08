@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { ParametersModal } from "../ParametersModal/ParametersModal";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-import DictionaryAddition from "../ParametersModal/dictionaryAddition/dictionaryAddition";
 import DictionaryFormModal from "../ParametersModal/dictionaryForm/dictionaryFormModal";
 
 const RunAlgorithmsPage = () => {
@@ -26,25 +25,28 @@ const RunAlgorithmsPage = () => {
     const arg_list_obj = Object.values(algosInputs);
     const arg_list = arg_list_obj.map((obj) => Object.values(obj));
     var formData = new FormData();
-    formData.append("algo_names", algo_names);
-    formData.append("arg_list", arg_list);
+    formData.append("algo_names", JSON.stringify(algo_names));
+    formData.append("arg_list", JSON.stringify(algosInputs));
     formData.append("model_file", modelFile);
     formData.append("model_input", modelInputsFile);
 
     console.log(formData);
-    console.log("algos inputs submit " + JSON.stringify(algosInputs));
-    api
-      .post("/runAlgorithm", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        navigate("/results", { state: res.data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    console.log("algo names " + JSON.stringify(algo_names));
+    console.log(algosInputs);
+
+    // api
+    //   .post("/runAlgorithm", formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     navigate("/results", { state: res.data });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   const addAlgoToList = (algorithm) => {
@@ -68,7 +70,6 @@ const RunAlgorithmsPage = () => {
   };
 
   const onAddParamsClick = (algorithm) => {
-    console.log(algorithm);
     setAlgorithmToAddParams(algorithm);
     setOpenModal(true);
   };
@@ -77,6 +78,7 @@ const RunAlgorithmsPage = () => {
     api
       .get("/getAllAlgorithms")
       .then((res) => {
+        console.log(res?.data);
         setAlgorithmsList(res?.data);
       })
       .catch((err) => {
@@ -98,8 +100,6 @@ const RunAlgorithmsPage = () => {
       setModelInputsFile(e.target.files[0]);
     }
   };
-
-  const onIClick = () => {};
 
   return (
     <div className="RunAlgorithmsPage">
