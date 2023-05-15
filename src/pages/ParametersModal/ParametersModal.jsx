@@ -171,12 +171,12 @@ export const ParametersModal = ({
             </div>
           ))}
 
-          {
+          {/* {
             <DictionaryFormModal
               setDictModalOpen={setDictionaryModalOpen}
               open={dictionaryModalOpen}
             ></DictionaryFormModal>
-          }
+          } */}
         </div>
         <div className="save_button_container">
           <button className="save_button" onClick={onSave}>
