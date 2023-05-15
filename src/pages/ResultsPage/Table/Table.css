@@ -7,4 +7,8 @@
 .tableRow:nth-child(2) {
     background-color: green;
 }
+
+.clickable:hover{
+    cursor: pointer;
+}
   

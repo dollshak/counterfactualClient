@@ -51,7 +51,7 @@ const AddAlgorithmPage = () => {
     formData.append("description", algoDesc);
     formData.append("additional_info", algoInfo);
     formData.append("output_example", ["1"]);
-    formData.append("type", JSON.stringify(["regression"]));
+    formData.append("type", JSON.stringify(["regressor"]));
     api
       .post("/algorithm", formData, {
         headers: {

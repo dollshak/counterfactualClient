@@ -5,11 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 const ResultsPage = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { reqbody } = state;
-  console.log(state);
-  console.log(reqbody);
 
-  // const reqbody = {
+  // const state = {
   //   input: { size: 4, color: 2 },
   //   output: {
   //     alibi: [
@@ -25,12 +22,22 @@ const ResultsPage = () => {
   //   },
   // };
 
-  const inputList = Object.entries(state.output).map(([key, value]) => [
-    key,
-    value,
-  ]);
+  // const inputList = Object.entries(state.output).map(([key, value]) => [
+  //   key,
+  //   value,
+  // ]);
 
-  const body = [["input", [Object.values(state.input)]]];
+  // const body = [["input", [Object.values(state.input)]]];
+
+  const inputList = Object.entries(state.output).flatMap(([key, values]) => {
+    return values.map((innerArray) => {
+      return [key, ...innerArray];
+    });
+  });
+
+  console.log(inputList);
+
+  const body = [Object.values(state.input)];
 
   const onBackClick = () => {
     navigate("/");
@@ -42,16 +49,16 @@ const ResultsPage = () => {
         back
       </button>
       <h1>Results</h1>
-      <h2>input</h2>
+      <h2 className="input-output-title">input</h2>
       <Table
         tableHeaders={Object.keys(state.input)}
-        tableRows={body}
+        rows={body}
         isInput={true}
       ></Table>
-      <h2>output</h2>
+      <h2 className="input-output-title">output</h2>
       <Table
         tableHeaders={["algorithm", ...Object.keys(state.input)]}
-        tableRows={inputList}
+        rows={inputList}
         isInput={false}
       ></Table>
     </div>

@@ -30,23 +30,22 @@ const RunAlgorithmsPage = () => {
     formData.append("model_file", modelFile);
     formData.append("model_input", modelInputsFile);
 
-    console.log(formData);
     console.log("algo names " + JSON.stringify(algo_names));
     console.log(algosInputs);
 
-    // api
-    //   .post("/runAlgorithm", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     navigate("/results", { state: res.data });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    api
+      .post("/runAlgorithm", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        navigate("/results", { state: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const addAlgoToList = (algorithm) => {

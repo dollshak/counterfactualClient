@@ -1,4 +1,3 @@
-import { type } from "@testing-library/user-event/dist/type";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import DictionaryFormModal from "./dictionaryForm/dictionaryFormModal";
@@ -13,9 +12,6 @@ export const ParametersModal = ({
   const [inputTypes, setInputTypes] = useState({});
   const [dictionaryModalOpen, setDictionaryModalOpen] = useState(false);
   const [tempAlgoInputs, setTempAlgoInputs] = useState({});
-  // const [tempAlgoInputs, setTempAlgoInputs] = useState(
-  //   algo ? { ...algosInputs[algo.name] } : {}
-  // );
 
   useEffect(() => {
     setTempAlgoInputs(algo ? { ...algosInputs[algo.name] } : {});
@@ -48,9 +44,7 @@ export const ParametersModal = ({
         const discinaryVal = JSON.parse(argStr);
         return discinaryVal;
       case "list":
-        console.log(argStr);
         const parsedList = JSON.parse(argStr);
-        console.log(parsedList);
         return parsedList;
       default:
         return argStr;
@@ -177,12 +171,12 @@ export const ParametersModal = ({
             </div>
           ))}
 
-          {/* {
+          {
             <DictionaryFormModal
               setDictModalOpen={setDictionaryModalOpen}
               open={dictionaryModalOpen}
             ></DictionaryFormModal>
-          } */}
+          }
         </div>
         <div className="save_button_container">
           <button className="save_button" onClick={onSave}>
