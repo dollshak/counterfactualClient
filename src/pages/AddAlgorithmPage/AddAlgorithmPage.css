@@ -26,6 +26,14 @@
     font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.AAP_good_message{
+    color: green;
+}
+
+.AAP_bad_message{
+    color: red;
+}
+
 .info_input, .output_info, .desc_input, .upload_algo_input, .add_name_input{
     margin-left: 10px;
 }

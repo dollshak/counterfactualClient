@@ -61,6 +61,9 @@ const AddAlgorithmPage = () => {
       .then((res) => {
         setShowGoodMessage(true);
         setShowBadMessage(false);
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
       })
       .catch((err) => {
         console.log(err);

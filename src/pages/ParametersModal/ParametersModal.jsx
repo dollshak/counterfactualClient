@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import DictionaryFormModal from "./dictionaryForm/dictionaryFormModal";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 export const ParametersModal = ({
   open,
@@ -9,21 +11,29 @@ export const ParametersModal = ({
   algosInputs,
   setAlgosInputs,
 }) => {
+  const initializeInputTypes = () => {
+    if (algo) {
+      const initialInputTypes = {};
+      algo.argument_lst.forEach((arg) => {
+        initialInputTypes[arg.param_name] = arg.accepted_types[0];
+      });
+      setInputTypes(initialInputTypes);
+    }
+  };
   const [inputTypes, setInputTypes] = useState({});
   const [dictionaryModalOpen, setDictionaryModalOpen] = useState(false);
   const [tempAlgoInputs, setTempAlgoInputs] = useState({});
 
   useEffect(() => {
     setTempAlgoInputs(algo ? { ...algosInputs[algo.name] } : {});
-    console.log("temp " + JSON.stringify(tempAlgoInputs));
+    if (algo) {
+      initializeInputTypes();
+    }
   }, [algo]);
 
   if (!open) return null;
 
-  console.log(algo);
-  console.log(tempAlgoInputs);
-  console.log(algosInputs);
-  console.log({ ...algosInputs[algo.name] });
+  console.log(inputTypes);
 
   const onParamChange = (event, arg) => {
     setTempAlgoInputs((prevInputs) => ({
@@ -77,7 +87,6 @@ export const ParametersModal = ({
   };
 
   const onSave = () => {
-    console.log(tempAlgoInputs);
     const tempalgoInputVals = algoStrInputsToVals(tempAlgoInputs);
     setAlgosInputs((prevState) => ({
       ...prevState,
@@ -102,12 +111,16 @@ export const ParametersModal = ({
         <h1 className="title">{algo.name}</h1>
         <h2 className="algo_desc">{algo.description}</h2>
         <p className="algo_info">{algo.additional_info}</p>
+        {console.log(algo.output_example)}
         <p className="algo_output_example">{algo.output_example}</p>
         <div className="params_list">
           {algo.argument_lst.map((arg) => (
             <div className="param" key={arg.param_name}>
               <form className="input-form">
-                <label>
+                <label
+                  data-tooltip-id={arg.param_name}
+                  data-tooltip-content={arg.description}
+                >
                   {arg.param_name}
 
                   {inputTypes[arg.param_name] &&
@@ -118,14 +131,18 @@ export const ParametersModal = ({
                       <input
                         className="input"
                         type="text"
-                        placeholder={""}
+                        placeholder={
+                          inputTypes[arg.param_name] === "list"
+                            ? "example: [1,2,3]"
+                            : ""
+                        }
                         // placeholder={tempAlgoInputs[arg.param_name]}
                         onChange={(event) => onParamChange(event, arg)}
                       />
                     )}
-                  {inputTypes[arg.param_name] === "dictionary" && (
+                  {/* {inputTypes[arg.param_name] === "dictionary" && (
                     <button onClick={onAddDictClick}>add dictionary</button>
-                  )}
+                  )} */}
 
                   {inputTypes[arg.param_name] &&
                     inputTypes[arg.param_name] === "boolean" && (
@@ -149,10 +166,11 @@ export const ParametersModal = ({
                       </div>
                     )}
                 </label>
+                <Tooltip id={arg.param_name} />
               </form>
 
               <div className="desc_and_types">
-                <p className="types">type:</p>
+                {/* <p className="types">type:</p> */}
                 <div className="PM_types">
                   {arg.accepted_types.map((type, index) => (
                     <div>
@@ -162,6 +180,7 @@ export const ParametersModal = ({
                         value={type}
                         name={arg.param_name}
                         onChange={(event) => onTypeChoose(event, arg)}
+                        defaultChecked={index === 0}
                       />
                       <label htmlFor={type}>{type}</label>
                     </div>
@@ -179,9 +198,7 @@ export const ParametersModal = ({
           } */}
         </div>
         <div className="save_button_container">
-          <button className="save_button" onClick={onSave}>
-            save
-          </button>
+          <button onClick={onSave}>save</button>
         </div>
       </div>
     </div>
