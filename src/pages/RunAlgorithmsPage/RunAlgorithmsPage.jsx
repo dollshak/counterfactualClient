@@ -151,9 +151,6 @@ const RunAlgorithmsPage = () => {
           />
         </div>
         <div className="model_upload">
-          {/* <button className="RAP_i_button" onClick={onIClick}>
-            i
-          </button> */}
           <p className="RAP_MU_title">upload model parameters:</p>
           <input
             type="file"

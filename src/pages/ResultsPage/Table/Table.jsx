@@ -21,44 +21,6 @@ const ResultsTable = ({ tableHeaders, rows, isInput }) => {
   //   ["dice", [[6, 7]]],
   // ];
 
-  // const result = Object.entries(algoToRows).map(([key, values]) => {
-  //   return values.map((innerArray) => {
-  //     return [key, ...innerArray];
-  //   });
-  // });
-
-  // const [newRows, setNewRows] = useState(
-  //   algoToRows.map((algorithmRowsAndName) =>
-  //     algorithmRowsAndName[1].map((rowValues, index) => (
-  //       <tr key={index}>
-  //         {!isInput && <td>{algorithmRowsAndName[0]}</td>}
-  //         {rowValues.map((cellValue, index) => (
-  //           <td key={index}>{cellValue}</td>
-  //         ))}
-  //       </tr>
-  //     ))
-  //   )
-  // );
-
-  // const sort = () => {
-  //   console.log("sorting");
-  //   if (sortColumn !== null) {
-  //     algoToRows.sort((row1, row2) => {
-  //       const value1 = row1[1][sortColumn][0];
-  //       const value2 = row2[1][sortColumn][0];
-  //       return sortOrder === "asc" ? value1 - value2 : value2 - value1;
-  //     });
-  //   }
-
-  //   console.log(algoToRows);
-  // };
-
-  // const [rows, setResult] = useState([
-  //   [1, 2, 3, 4, 5],
-  //   [1, 1, 3, 4, 5],
-  //   [1, 2, 3, 2, 5],
-  // ]);
-
   const [rowsVals, setRowsVals] = useState(rows);
 
   const [newRows, setNewRows] = useState(
