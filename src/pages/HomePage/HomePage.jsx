@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import DictionaryFormModal from "../ParametersModal/dictionaryForm/dictionaryFormModal";
+import DictionaryForm from "../ParametersModal/dictionaryForm/dictionaryForm";
 const HomePage = () => {
   const navigate = useNavigate();
 

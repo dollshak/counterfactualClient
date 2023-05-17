@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ParametersModal } from "../ParametersModal/ParametersModal";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-import DictionaryFormModal from "../ParametersModal/dictionaryForm/dictionaryFormModal";
+import DictionaryForm from "../ParametersModal/dictionaryForm/dictionaryForm";
 
 const RunAlgorithmsPage = () => {
   const navigate = useNavigate();

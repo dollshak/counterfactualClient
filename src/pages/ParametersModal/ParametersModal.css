@@ -142,4 +142,8 @@
     -webkit-user-select: none;
     touch-action: manipulation;
   }
+
+  .dict-popup{
+    width: auto;
+  }
   

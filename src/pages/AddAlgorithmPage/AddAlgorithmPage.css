@@ -27,10 +27,12 @@
 }
 
 .AAP_good_message{
+    margin-top: 10px;
     color: green;
 }
 
 .AAP_bad_message{
+    margin-top: 10px;
     color: red;
 }
 

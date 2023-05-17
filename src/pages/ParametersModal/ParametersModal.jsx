@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import DictionaryFormModal from "./dictionaryForm/dictionaryFormModal";
+import DictionaryForm from "./dictionaryForm/dictionaryForm";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 
 export const ParametersModal = ({
   open,
@@ -21,8 +23,8 @@ export const ParametersModal = ({
     }
   };
   const [inputTypes, setInputTypes] = useState({});
-  const [dictionaryModalOpen, setDictionaryModalOpen] = useState(false);
   const [tempAlgoInputs, setTempAlgoInputs] = useState({});
+  const [openDictModal, setOpenDictModal] = useState(false);
 
   useEffect(() => {
     setTempAlgoInputs(algo ? { ...algosInputs[algo.name] } : {});
@@ -97,13 +99,38 @@ export const ParametersModal = ({
   };
 
   const onAddDictClick = () => {
-    setDictionaryModalOpen(true);
+    setOpenDictModal(true);
+  };
+
+  const getPlaceholderByType = (type) => {
+    let placeholder = "example: ";
+    switch (type) {
+      case "string":
+        return placeholder + "abc";
+      case "float":
+        return placeholder + "3";
+      case "list":
+        return placeholder + "[1,2,3]";
+      case "dictionary":
+        return placeholder + '{"x": 3}';
+      default:
+        return "";
+    }
   };
 
   return (
     <div className="modal_background">
       <div className="modal_container">
         <div className="title_close_button">
+          {/* {openDictModal && (
+            <Popup
+              className="dict-popup"
+              open={openDictModal}
+              onClose={() => setOpenDictModal(false)}
+            >
+              <DictionaryForm></DictionaryForm>
+            </Popup>
+          )} */}
           <button className="close_modal" onClick={onClose}>
             x
           </button>
@@ -120,29 +147,39 @@ export const ParametersModal = ({
                 <label
                   data-tooltip-id={arg.param_name}
                   data-tooltip-content={arg.description}
+                  className="arg-label"
                 >
                   {arg.param_name}
 
                   {inputTypes[arg.param_name] &&
-                    (inputTypes[arg.param_name] === "string" ||
-                      inputTypes[arg.param_name] === "float" ||
-                      inputTypes[arg.param_name] === "list" ||
-                      inputTypes[arg.param_name] === "dictionary") && (
+                    inputTypes[arg.param_name] !== "boolean" &&
+                    inputTypes[arg.param_name] !== "dictionary" && (
                       <input
                         className="input"
                         type="text"
-                        placeholder={
-                          inputTypes[arg.param_name] === "list"
-                            ? "example: [1,2,3]"
-                            : ""
-                        }
+                        placeholder={getPlaceholderByType(
+                          inputTypes[arg.param_name]
+                        )}
                         // placeholder={tempAlgoInputs[arg.param_name]}
                         onChange={(event) => onParamChange(event, arg)}
                       />
                     )}
-                  {/* {inputTypes[arg.param_name] === "dictionary" && (
-                    <button onClick={onAddDictClick}>add dictionary</button>
-                  )} */}
+
+                  {inputTypes[arg.param_name] &&
+                    inputTypes[arg.param_name] === "dictionary" && (
+                      <textarea
+                        className="input"
+                        type="text"
+                        placeholder={getPlaceholderByType(
+                          inputTypes[arg.param_name]
+                        )}
+                        // placeholder={tempAlgoInputs[arg.param_name]}
+                        onChange={(event) => onParamChange(event, arg)}
+                      />
+                      // <button key={arg.param_name} onClick={onAddDictClick}>
+                      //   add
+                      // </button>
+                    )}
 
                   {inputTypes[arg.param_name] &&
                     inputTypes[arg.param_name] === "boolean" && (
@@ -170,7 +207,6 @@ export const ParametersModal = ({
               </form>
 
               <div className="desc_and_types">
-                {/* <p className="types">type:</p> */}
                 <div className="PM_types">
                   {arg.accepted_types.map((type, index) => (
                     <div>
