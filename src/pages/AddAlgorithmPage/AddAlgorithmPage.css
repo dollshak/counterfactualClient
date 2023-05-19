@@ -1,79 +1,36 @@
-.AddAlgorithmPage{
+.backgroundComp{
+    background:#2e2e2e;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    text-align: center;
     display: flex;
     flex-direction: column;
-    
+}
+.mainTitle {
+    color: white;
+    margin-bottom: 10px;
+    font-size: xxx-large;
+  }
+
+.back_button{
+    float: left;
 }
 
 .fields{
     margin-left: 42%;
 }
 
-.add_name, .addFile, .add_arguments, .add_description, .add_additional_info, .add_output_example{
-    margin-bottom: 30px;
-    margin-left: 0%;
-    text-align: left;
-}
-
-.algorithm_upload{
-    margin-bottom: 30px;
-    margin-left: 0px;
-    text-align: left;
-    display: flex;
-    flex-direction: row;
-}
-
-.main_title, .add_name_title, .upload_algo_title, .desc_title, .args_title, .info_title, .output_title, .AAP_upload_title , .AAP_good_message, .AAP_bad_message{
-    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.AAP_good_message{
-    margin-top: 10px;
-    color: green;
-}
-
-.AAP_bad_message{
-    margin-top: 10px;
-    color: red;
-}
-
-.info_input, .output_info, .desc_input, .upload_algo_input, .add_name_input{
-    margin-left: 10px;
-}
-
-.AAP_upload_title{
-    margin-top: 0%;
-    margin-right: 10px;
+.shortInput{
 
 }
-
-.desc_input, .info_input{
-    height: 100px;
-    width: 200px;
+.fieldTitle{
+    color: white;
+    font-size: large;
 }
-
-.add_name_input{
-    width: 200px;
-}
-
-
-
-
-
-.main_title{
-    margin-bottom: 50px;
-}
-
-form{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+.longInput{
 
 }
+.add_button{
 
-
-.add_button, .add_arguments{
-    width: 100px;
-    margin-left:47%;
-    margin-top: 10px;
 }
-

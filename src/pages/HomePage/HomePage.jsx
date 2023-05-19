@@ -12,16 +12,19 @@ const HomePage = () => {
     navigate("/runAlgorithms");
   };
   return (
-    <div className="HomePage">
-      <div className="homepage_container">
-        <h1 className="homePageTitle">Welcome! what would you like to do?</h1>
-        <button className="add_alg_button" onClick={onClickAddAlgorithm}>
-          add new algorithm
-        </button>
-        <button className="run_alg_button" onClick={onClickRunAlgorithms}>
-          run algorithms
-        </button>
-      </div>
+    <div className="backgroundComp">
+        <p class="mainTitle">Welcome!</p>
+        <p class="subTitle">please choose your action</p>    
+        <div>
+          <button className="button" onClick={onClickAddAlgorithm}>
+            Add New Algorithm
+          </button>
+        </div>    
+        <div>
+          <button className="button" onClick={onClickRunAlgorithms}>
+            run algorithms
+          </button>
+        </div>
     </div>
   );
 };

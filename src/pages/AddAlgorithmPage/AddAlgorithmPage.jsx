@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AddParametersModal } from "../AddParametersModal/AddParametersModal";
 import Axios from "axios";
+import HomeIcon from '@mui/icons-material/Home';
 
 const AddAlgorithmPage = () => {
   const [algorithmFile, setAlgorithmFile] = useState();
@@ -79,16 +80,20 @@ const AddAlgorithmPage = () => {
   };
 
   return (
-    <div className="AddAlgorithmPage">
-      <button className="back_button" onClick={onBackClick}>
-        back
-      </button>
-      <h1 className="main_title">add new algorithm</h1>
+    <div className="backgroundComp">
+      <div>
+        <button className="back_button" onClick={onBackClick}>
+        <span class="material-symbols-rounded">
+          home
+        </span>
+        </button>
+        <h1 className="mainTitle">add new algorithm</h1>
+      </div>
       <div className="fields">
-        <div className="add_name">
+        <div className="shortInput">
           <form>
-            <label className="add_name_title">
-              algorithm's name
+            <label className="fieldTitle">
+              Algorithm's name
               <input
                 className="add_name_input"
                 type="text"
@@ -98,9 +103,9 @@ const AddAlgorithmPage = () => {
             </label>
           </form>
         </div>
-        <div className="add_description">
+        <div className="longInput">
           <form>
-            <label className="desc_title">
+            <label className="fieldTitle">
               add description
               <textarea
                 className="desc_input"
@@ -111,10 +116,9 @@ const AddAlgorithmPage = () => {
             </label>
           </form>
         </div>
-
-        <div className="add_additional_info">
+        <div className="longInput">
           <form>
-            <label className="info_title">
+            <label className="fieldTitle">
               add additional info
               <textarea
                 className="info_input"
@@ -126,9 +130,9 @@ const AddAlgorithmPage = () => {
           </form>
         </div>
 
-        <div className="add_output_example">
+        <div className="longInput">
           <form>
-            <label className="output_title">
+            <label className="fieldTitle">
               add output example
               <input
                 className="output_info"
@@ -140,13 +144,13 @@ const AddAlgorithmPage = () => {
           </form>
         </div>
 
-        <div className="algorithm_upload">
-          <p className="AAP_upload_title">upload algorithm file</p>
+        <div className="shortInput">
+          <p className="fieldTitle">upload algorithm file</p>
           <input type="file" id="files" onChange={handleModelFileUpload} />
         </div>
       </div>
 
-      <div className="add_arguments">
+      <div className="shortInput">
         <button className="args_title" onClick={onAddParamsClick}>
           add_parameters
         </button>

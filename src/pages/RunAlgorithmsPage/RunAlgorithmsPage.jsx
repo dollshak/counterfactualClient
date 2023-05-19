@@ -12,8 +12,10 @@ const RunAlgorithmsPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [algorithmToAddParams, setAlgorithmToAddParams] = useState();
   const [algorithmsList, setAlgorithmsList] = useState([]);
+  const [algorithmsListFiltered, setAlgorithmsListFiltered] = useState([]);
   const [modelFile, setModelFile] = useState();
   const [modelInputsFile, setModelInputsFile] = useState();
+  const [selectedType, setSelectedType] = useState()
   const [algosInputs, setAlgosInputs] = useState({});
   const [showModelInputI, setShowModelInputI] = useState(false);
   const api = Axios.create({
@@ -79,11 +81,12 @@ const RunAlgorithmsPage = () => {
       .then((res) => {
         console.log(res?.data);
         setAlgorithmsList(res?.data);
+        setAlgorithmsListFiltered(algorithmsList.filter(a => a.type === "classifer"))
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, []);  
 
   const onBackClick = () => {
     navigate("/");
@@ -100,8 +103,17 @@ const RunAlgorithmsPage = () => {
     }
   };
 
+  const changeType = () =>{
+    const newType = selectedType === "regressor"? "classifier" : "regressor"; 
+    setSelectedType(newType);
+    setAlgorithmsListFiltered(algorithmsList.filter(a => a.type === newType)) 
+  }
   return (
     <div className="RunAlgorithmsPage">
+      <button
+        onClick={changeType}>
+        change type
+      </button>
       <button className="back_button" onClick={onBackClick}>
         back
       </button>
