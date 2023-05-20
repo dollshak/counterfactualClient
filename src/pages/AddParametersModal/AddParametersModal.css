@@ -25,6 +25,7 @@
 
 
 .add_title_close_button{
+    cursor: pointer;
     display: flex;
     justify-content: flex-start;
 }
@@ -64,12 +65,20 @@
     margin-bottom: 50px;
 }
 
-.name_title, .desc_title, .types_title, .actions_title, .name, .desc, .types{
+.paramTableHeader{
     font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.edit_button{
+.action_button{
+    cursor: pointer;
     margin-right: 5px;
+}
+.action_button_cancel{
+    cursor: pointer;
+    margin-right: 5px;
+}
+.action_button_cancel:hover{
+    background-color: rgb(151, 7, 7);
 }
 
 .param_in_modal{
@@ -119,10 +128,12 @@
 }
 
 .add_add_button{
+    cursor: pointer;
     margin-left: 10px;
 }
 
 .add_save_button_container{
+    cursor: pointer;
     margin-top: 100px;
 }
 
@@ -133,6 +144,7 @@
 }
 
 .ER_save_button{
+    cursor: pointer;
     margin-right: 5px;
 }
 

@@ -1,23 +1,28 @@
 import React from "react";
-
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 const ReadOnlyRow = ({ param, onDelete, onEdit }) => {
   return (
     <tr id={param.param_name}>
       <td className="name">{param.param_name}</td>
       <td className="desc">{param.description}</td>
+      <td className="desc">{param.default_value}</td>
       <td className="types">{param.accepted_types.join(", ")}</td>
       <td>
         <button
-          className="edit_button"
+          className="action_button"
           onClick={(event) => onEdit(event, param)}
+          title="edit parameter"
+
         >
-          edit
+          <EditOutlinedIcon/>
         </button>
         <button
-          className="delete_button"
+          className="action_button_cancel"
           onClick={() => onDelete(param.param_name)}
+          title="delete"
         >
-          delete
+          <DeleteOutlineOutlinedIcon/>
         </button>
       </td>
     </tr>

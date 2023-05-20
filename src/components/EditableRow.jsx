@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import Dropdown from "./Dropdown/Dropdown";
-
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined';
 function EditableRow({
   param,
   setEditRow,
   setEditedDesc,
   setEditedTypes,
+  setEditedDefVal,
+  setIsEditedDefValUse,
+  isEditedDefValUse,
   onSave,
   acceptedTypes,
 }) {
@@ -33,6 +37,26 @@ function EditableRow({
           onChange={(event) => setEditedDesc(event.target.value)}
         ></input>
       </td>
+      <td className="defaultValue">
+
+          <div>
+            <input type="checkbox"
+            id="scales" name="scales"
+            value={isEditedDefValUse} 
+            onChange={(event) => setIsEditedDefValUse(!isEditedDefValUse)}
+            checked={isEditedDefValUse}
+            /> set defualt value
+          </div>
+          <div>
+            <input
+              className="desc_input"
+              type="text"
+              placeholder={param.default_value}
+              onChange={(event) => setEditedDefVal(event.target.value)}
+              disabled={!isEditedDefValUse}
+            />
+          </div>
+      </td>
       <td className="types">
         <Dropdown
           options={acceptedTypes}
@@ -43,13 +67,16 @@ function EditableRow({
       </td>
       <td>
         <button
-          className="ER_save_button"
+          className="action_button"
           onClick={(event) => onSave(event, param.param_name)}
+          title="save"
         >
-          save
+          <SaveAsOutlinedIcon/>
         </button>
-        <button className="ER_delete_button" onClick={onCancel}>
-          cancel
+        <button className="action_button_cancel" onClick={onCancel}
+          title="cancel"
+          >
+          <CancelOutlinedIcon/>
         </button>
       </td>
     </tr>

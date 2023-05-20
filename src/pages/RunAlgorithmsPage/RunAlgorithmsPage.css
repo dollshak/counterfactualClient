@@ -3,11 +3,6 @@
     flex-direction: column;
   }
 
-  .back_button{
-    margin-left: 5px;
-    width: 100px
-  }
-
   .run_algo_page_container{
     display: flex;
     flex-direction: column;

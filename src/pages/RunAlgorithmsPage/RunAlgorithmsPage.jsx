@@ -3,6 +3,7 @@ import { ParametersModal } from "../ParametersModal/ParametersModal";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import DictionaryForm from "../ParametersModal/dictionaryForm/dictionaryForm";
+import { AlgoType } from "../../Objects/ConfigService";
 
 const RunAlgorithmsPage = () => {
   const navigate = useNavigate();
@@ -104,7 +105,7 @@ const RunAlgorithmsPage = () => {
   };
 
   const changeType = () =>{
-    const newType = selectedType === "regressor"? "classifier" : "regressor"; 
+    const newType = selectedType === AlgoType.Regressor ? AlgoType.Classifier: AlgoType.Regressor ; 
     setSelectedType(newType);
     setAlgorithmsListFiltered(algorithmsList.filter(a => a.type === newType)) 
   }

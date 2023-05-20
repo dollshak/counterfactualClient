@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AddParametersModal } from "../AddParametersModal/AddParametersModal";
 import Axios from "axios";
 import HomeIcon from '@mui/icons-material/Home';
+import { AlgoType } from "../../Objects/ConfigService";
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { pink } from '@mui/material/colors';
 
 const AddAlgorithmPage = () => {
   const [algorithmFile, setAlgorithmFile] = useState();
@@ -11,17 +15,22 @@ const AddAlgorithmPage = () => {
   const [algoInfo, setAlgoInfo] = useState("");
   const [algoOutputExample, setAlgoOutputExample] = useState("");
   const [parametersList, setParametersList] = useState([]);
+  const [algoTypes, setAlgoTypes] = useState([]);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [showGoodMessage, setShowGoodMessage] = useState(false);
   const [showBadMessage, setShowBadMessage] = useState(false);
+  const [isSubmitValid,setIsSubmitValid] = useState(false);
   const api = Axios.create({
     baseURL: "http://127.0.0.1:5000",
   });
   const onBackClick = () => {
     navigate("/");
   };
-
+ 
+  useEffect(() => {
+    onDataChange()
+  });  
   const onNameChange = (event) => {
     setAlgoName(event.target.value);
     setShowBadMessage(false);
@@ -40,7 +49,18 @@ const AddAlgorithmPage = () => {
   const onAddParamsClick = () => {
     setOpenModal(true);
   };
-
+   const onDataChange = () => {
+      if (!algorithmFile 
+        || !algoName || algoName.length<1
+        || !algoDesc || algoDesc.length<1
+        || !algoOutputExample || algoOutputExample.length<1
+        || !algoTypes || algoTypes.length<1
+        ){
+          setIsSubmitValid(false);
+        } else{
+          setIsSubmitValid(true);
+        }
+   }
   const onAddClick = () => {
     if (!algorithmFile) {
       return;
@@ -51,8 +71,8 @@ const AddAlgorithmPage = () => {
     formData.append("argument_lst", JSON.stringify(parametersList));
     formData.append("description", algoDesc);
     formData.append("additional_info", algoInfo);
-    formData.append("output_example", ["1"]);
-    formData.append("type", JSON.stringify(["regressor"]));
+    formData.append("output_example", [algoOutputExample]);
+    formData.append("type", JSON.stringify(algoTypes));
     api
       .post("/algorithm", formData, {
         headers: {
@@ -79,97 +99,158 @@ const AddAlgorithmPage = () => {
     }
   };
 
+  const onTypeClick = (e) => {
+    let algoType = e.target.value;
+    if (e.target.checked && !algoTypes.includes(algoType)){
+      algoTypes.push(algoType)
+    } else{
+      const index = algoTypes.indexOf(algoType);
+      if (index>= 0){
+        algoTypes.splice(index)
+      }
+    }
+  }
+
   return (
     <div className="backgroundComp">
       <div>
         <button className="back_button" onClick={onBackClick}>
-        <span class="material-symbols-rounded">
-          home
-        </span>
+          <h1><HomeIcon/></h1>
         </button>
-        <h1 className="mainTitle">add new algorithm</h1>
+        <h1 className="mainTitle">Add New Algorithm</h1>
       </div>
       <div className="fields">
-        <div className="shortInput">
-          <form>
+        <div className="row">
+          <div className="column">
             <label className="fieldTitle">
               Algorithm's name
+            </label>
+          </div>
+          <div className="column">
               <input
-                className="add_name_input"
+                className="inputClass"
                 type="text"
                 value={algoName}
                 onChange={onNameChange}
               />
-            </label>
-          </form>
+          </div>
         </div>
-        <div className="longInput">
-          <form>
+        
+        
+        <div className="row">
+          <div className="column">
             <label className="fieldTitle">
-              add description
-              <textarea
-                className="desc_input"
+              Description
+            </label>
+          </div>
+          <div className="column">
+            <textarea
+                className="textArea"
                 type="text"
                 value={algoDesc}
                 onChange={onDescChange}
               />
-            </label>
-          </form>
+          </div>
         </div>
-        <div className="longInput">
-          <form>
+   
+        <div className="row">
+          <div className="column">
             <label className="fieldTitle">
-              add additional info
-              <textarea
-                className="info_input"
-                type="text"
-                value={algoInfo}
-                onChange={onInfoChange}
-              />
+              output example
             </label>
-          </form>
+          </div>
+          <div className="column">
+            
+            <textarea
+              className="textArea"
+              type="text"
+              value={algoOutputExample}
+              onChange={onOutputChange}
+            />
+          </div>
+        </div>
+           
+        <div className="row">
+          <div className="column">
+            <label className="fieldTitle">Code File</label>
+          </div>
+          <div className="column">
+            <input 
+              className="fileClass"
+              type="file" 
+              id="files" 
+              onChange={handleModelFileUpload} />
+          </div>
         </div>
 
-        <div className="longInput">
-          <form>
-            <label className="fieldTitle">
-              add output example
-              <input
-                className="output_info"
-                type="text"
-                value={algoOutputExample}
-                onChange={onOutputChange}
-              />
-            </label>
-          </form>
+        <div className="row">
+          <div className="column">
+            <FormControlLabel
+              value= {AlgoType.Regressor}
+              className="checkboxLeft"
+              control={
+              <Checkbox
+                sx={{
+                  color: pink[800],
+                  '&.Mui-checked': {
+                    color: pink[600],
+                  },
+                }}
+                onChange={onTypeClick} 
+              />}
+              label="For Regression Models"
+              labelPlacement="For Regression Models"
+              />          
+            </div>
+          <div className="column">
+            <FormControlLabel
+            className="checkboxRight"
+            value={AlgoType.Classifier}
+            control={
+            <Checkbox
+              sx={{
+                color: pink[800],
+                '&.Mui-checked': {
+                  color: pink[600],
+                },
+              }}
+              onChange={onTypeClick} 
+            />}
+            label="For Classification Models"
+            labelPlacement="For Classification Models"
+            />
+          </div>
         </div>
 
-        <div className="shortInput">
-          <p className="fieldTitle">upload algorithm file</p>
-          <input type="file" id="files" onChange={handleModelFileUpload} />
+        <div className="row">
+          <div className="shortInput">
+            <button className="paramsButton" onClick={onAddParamsClick}>
+              Add Parameters
+            </button>
+          </div> 
         </div>
       </div>
 
-      <div className="shortInput">
-        <button className="args_title" onClick={onAddParamsClick}>
-          add_parameters
-        </button>
-      </div>
       <AddParametersModal
         open={openModal}
         onClose={() => setOpenModal(false)}
         paramsList={parametersList}
         setParamsList={setParametersList}
       />
+      <div>
+        <button className="submitButton" 
+          disabled= {!isSubmitValid}
+          onClick={onAddClick}
+        >
+          add
+        </button>
 
-      <button className="add_button" onClick={onAddClick}>
-        add
-      </button>
+      </div>
       {showGoodMessage && (
         <p className="AAP_good_message">algorithm was added succecfully</p>
       )}
       {showBadMessage && (
-        <p className="AAP_bad_message">
+        <p className="errorMessage">
           there was a problem adding your algorithm
         </p>
       )}
