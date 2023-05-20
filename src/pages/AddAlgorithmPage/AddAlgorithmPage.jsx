@@ -120,7 +120,7 @@ const AddAlgorithmPage = () => {
         <h1 className="mainTitle">Add New Algorithm</h1>
       </div>
       <div className="fields">
-        <div className="row">
+        <div className="rowSmall">
           <div className="column">
             <label className="fieldTitle">
               Algorithm's name
@@ -169,8 +169,24 @@ const AddAlgorithmPage = () => {
             />
           </div>
         </div>
-           
         <div className="row">
+          <div className="column">
+            <label className="fieldTitle">
+              Additional Info
+            </label>
+          </div>
+          <div className="column">
+            
+            <textarea
+              className="textArea"
+              type="text"
+              value={algoOutputExample}
+              onChange={onOutputChange}
+            />
+          </div>
+        </div>
+           
+        <div className="rowSmall">
           <div className="column">
             <label className="fieldTitle">Code File</label>
           </div>
@@ -183,7 +199,7 @@ const AddAlgorithmPage = () => {
           </div>
         </div>
 
-        <div className="row">
+        <div className="rowSmall">
           <div className="column">
             <FormControlLabel
               value= {AlgoType.Regressor}

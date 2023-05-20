@@ -24,6 +24,10 @@
     height: 70%;
 }
 
+.rowSmall{
+    width: 100%;
+    height: 10%
+}
 .row{
     width: 100%;
     height: 15%
