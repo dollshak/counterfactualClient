@@ -54,3 +54,55 @@ button:hover {
   cursor: pointer;
 
 }
+
+
+
+.fieldTitle{
+  color: white;
+  font-size: large;
+  display: inline-block;
+  float: right;
+  margin-right: 10px;
+}
+.columnLeft{
+  float: left;
+  width: 33.3%;
+  height: 100%;
+}
+.columnRight{
+  float: left;
+  width: 66.7%;
+  height: 100%;
+}
+.column{
+  float: left;
+  width: 50%;
+  height: 100%;
+}
+.inputClass{
+  float:left;
+  width: 50%;
+  
+}
+
+.fileClass{
+  float:left;
+  color: white;
+}
+.rowSmall{
+  width: 100%;
+  height: 10%
+}
+.row{
+  width: 100%;
+  height: 15%
+}
+
+
+.textArea{
+  resize: horizontal;
+  vertical-align: middle;
+  float: left;
+  height: 100%;
+  width: 50%;
+}

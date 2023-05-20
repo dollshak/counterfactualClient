@@ -4,6 +4,13 @@ import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import DictionaryForm from "../ParametersModal/dictionaryForm/dictionaryForm";
 import { AlgoType } from "../../Objects/ConfigService";
+import HomeIcon from '@mui/icons-material/Home';
+import Checkbox from '@mui/material/Checkbox';
+import Switch, { SwitchProps } from '@mui/material/Switch';
+import Dropdown from "../../components/Dropdown/Dropdown";
+
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 const RunAlgorithmsPage = () => {
   const navigate = useNavigate();
@@ -16,9 +23,9 @@ const RunAlgorithmsPage = () => {
   const [algorithmsListFiltered, setAlgorithmsListFiltered] = useState([]);
   const [modelFile, setModelFile] = useState();
   const [modelInputsFile, setModelInputsFile] = useState();
-  const [selectedType, setSelectedType] = useState()
+  const [selectedType, setSelectedType] = useState(AlgoType.Regressor)
   const [algosInputs, setAlgosInputs] = useState({});
-  const [showModelInputI, setShowModelInputI] = useState(false);
+
   const api = Axios.create({
     baseURL: "http://127.0.0.1:5000",
   });
@@ -76,17 +83,89 @@ const RunAlgorithmsPage = () => {
     setOpenModal(true);
   };
 
+
+  const getDummyAlgos = () =>{
+    return [
+      {
+          "_id": "6468d77faab4f8dd6e113b32",
+          "additional_info": "no add",
+          "algo_type": [
+              "regressor"
+          ],
+          "argument_lst": [
+              {
+                  "accepted_types": [
+                      "list"
+                  ],
+                  "default_value": null,
+                  "description": "features name and ranges",
+                  "param_name": "features"
+              },
+              {
+                  "accepted_types": [
+                      "string"
+                  ],
+                  "default_value": null,
+                  "description": "target column name in data",
+                  "param_name": "outcome_name"
+              },
+              {
+                  "accepted_types": [
+                      "float"
+                  ],
+                  "default_value": 4,
+                  "description": "number of expected results",
+                  "param_name": "total_CFs"
+              },
+              {
+                  "accepted_types": [
+                      "float"
+                  ],
+                  "default_value": 2,
+                  "description": "class to find",
+                  "param_name": "desired_class"
+              },
+              {
+                  "accepted_types": [
+                      "list"
+                  ],
+                  "default_value": [
+                      0.8,
+                      1
+                  ],
+                  "description": "acceptable value range",
+                  "param_name": "desired_range"
+              },
+              {
+                  "accepted_types": [
+                      "boolean"
+                  ],
+                  "default_value": true,  
+                  "description": "is for classification task?",
+                  "param_name": "is_classifier"
+              }
+          ],
+          "description": "dice regression",
+          "name": "Dice_23",
+          "output_example": "[\"check not 1\"]"
+      }
+    ]
+  }
   useEffect(() => {
-    api
-      .get("/getAllAlgorithms")
-      .then((res) => {
-        console.log(res?.data);
-        setAlgorithmsList(res?.data);
-        setAlgorithmsListFiltered(algorithmsList.filter(a => a.type === "classifer"))
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const dummyResult  = getDummyAlgos()
+    setAlgorithmsList(dummyResult)
+    setAlgorithmsListFiltered(dummyResult.filter(a => a.algo_type.includes(selectedType)))
+
+    // api
+    //   .get("/getAllAlgorithms")
+    //   .then((res) => {
+    //     console.log(res?.data);
+    //     setAlgorithmsList(res?.data);
+    //     setAlgorithmsListFiltered(algorithmsList.filter(a => a.type === "classifer"))
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }, []);  
 
   const onBackClick = () => {
@@ -107,73 +186,120 @@ const RunAlgorithmsPage = () => {
   const changeType = () =>{
     const newType = selectedType === AlgoType.Regressor ? AlgoType.Classifier: AlgoType.Regressor ; 
     setSelectedType(newType);
-    setAlgorithmsListFiltered(algorithmsList.filter(a => a.type === newType)) 
+    setAlgorithmsListFiltered(algorithmsList.filter(a => a.algo_type.includes(newType))) 
   }
   return (
-    <div className="RunAlgorithmsPage">
-      <button
-        onClick={changeType}>
-        change type
-      </button>
+    <div className="backgroundComp">
+      <div>
       <button className="back_button" onClick={onBackClick}>
-        back
+        <h1><HomeIcon/></h1>
       </button>
-      <div className="run_algo_page_container">
-        <h1 className="run_algo_title">run algorithms</h1>
-        <p className="choose_title">choose algorithms to run:</p>
-        <div className="algorithms_list">
-          {algorithmsList.map((algorithm) => (
-            <div className="algorithm" key={algorithm._id}>
-              <input
-                type="checkbox"
-                id={algorithm._id}
-                name={algorithm.name}
-                value={algorithm.name}
-                onClick={() => algorithmChecked(algorithm)}
-              />
-              <label className="algo_name" htmlFor={algorithm._id}>
-                {algorithm.name}
-              </label>
-              <button
-                className="add_params_button"
-                id={"p" + algorithm._id}
-                hidden={true}
-                onClick={() => onAddParamsClick(algorithm)}
-              >
-                add params
-              </button>
-
-              <ParametersModal
-                open={openModal}
-                onClose={() => setOpenModal(false)}
-                algo={algorithmToAddParams}
-                algosInputs={algosInputs}
-                setAlgosInputs={setAlgosInputs}
-              />
-              {console.log(algosInputs)}
-            </div>
-          ))}
+      <h1 className="mainTitle">Run Algorithms</h1>
+    </div>
+    <div className="fields">
+      <div className="row">
+        <div className="column">
+          <label className="fieldTitle">
+            Model's Type: 
+          </label>
         </div>
-        <div className="model_upload">
-          <p className="RAP_MU_title">upload a model:</p>
+        <div className="column">
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Typography className="switchText"
+            >
+              Regression
+              </Typography>
+            <Switch
+              onChange={changeType}
+            />
+            <Typography className="switchText"
+            >
+              Classification
+              </Typography>
+          </Stack>
+        </div>
+      </div>
+
+      <div className="rowModels">
+        <div className="column">
+          <label className="fieldTitle">
+            Counterfactual selection
+          </label>
+        </div>
+        <div className="column">
+          <label 
+            className="missingAlgoTxt"
+            hidden= {algorithmsListFiltered.length > 0}
+          > No Compatible Algorithm Exist </label>
+          <div className="modelsList">
+            {algorithmsListFiltered.map((algorithm) => (
+              <div className="algorithm" key={algorithm._id}>
+                <input
+                  type="checkbox"
+                  class = "checkboxClass"
+                  id={algorithm._id}
+                  name={algorithm.name}
+                  value={algorithm.name}
+                  onClick={() => algorithmChecked(algorithm)}
+                />
+                <label className="algo_name" htmlFor={algorithm._id}>
+                  {algorithm.name}
+                </label>
+                <button
+                  className="add_params_button"
+                  id={"p" + algorithm._id}
+                  hidden={true}
+                  onClick={() => onAddParamsClick(algorithm)}
+                >
+                  add params
+                </button>
+
+                <ParametersModal
+                  open={openModal}
+                  onClose={() => setOpenModal(false)}
+                  algo={algorithmToAddParams}
+                  algosInputs={algosInputs}
+                  setAlgosInputs={setAlgosInputs}
+                />
+                {console.log(algosInputs)}
+              </div>
+              ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="rowSmall">
+        <div className="column">
+          <p className="fieldTitle">upload a model:</p>
+        </div>
+        <div className="column">
           <input
             type="file"
+            className="fileClass"
             accept=".pkl, .joblib"
             id="files"
             onChange={handleModelFileUpload}
           />
         </div>
-        <div className="model_upload">
-          <p className="RAP_MU_title">upload model parameters:</p>
+      </div>
+      <div className="rowSmall">
+        <div className="column">
+          <p className="fieldTitle">upload model parameters:</p>
+        </div>
+        <div className="column">
           <input
             type="file"
+            className="fileClass"
             accept=".json"
             id="files"
             onChange={handleModelInputsFileUpload}
           />
         </div>
-        <div className="submit_button">
-          <button className="run_button" onClick={onSubmit}>
+      </div>
+    </div>
+      <div className="run_algo_page_container">
+        <div className="row">
+          <button className="submitButton" onClick={onSubmit}>
             run
           </button>
         </div>

@@ -121,12 +121,12 @@ const AddAlgorithmPage = () => {
       </div>
       <div className="fields">
         <div className="rowSmall">
-          <div className="column">
+          <div className="columnLeft">
             <label className="fieldTitle">
               Algorithm's name
             </label>
           </div>
-          <div className="column">
+          <div className="columnRight">
               <input
                 className="inputClass"
                 type="text"
@@ -138,12 +138,12 @@ const AddAlgorithmPage = () => {
         
         
         <div className="row">
-          <div className="column">
+          <div className="columnLeft">
             <label className="fieldTitle">
               Description
             </label>
           </div>
-          <div className="column">
+          <div className="columnRight">
             <textarea
                 className="textArea"
                 type="text"
@@ -154,12 +154,12 @@ const AddAlgorithmPage = () => {
         </div>
    
         <div className="row">
-          <div className="column">
+          <div className="columnLeft">
             <label className="fieldTitle">
               output example
             </label>
           </div>
-          <div className="column">
+          <div className="columnRight">
             
             <textarea
               className="textArea"
@@ -170,12 +170,12 @@ const AddAlgorithmPage = () => {
           </div>
         </div>
         <div className="row">
-          <div className="column">
+          <div className="columnLeft">
             <label className="fieldTitle">
               Additional Info
             </label>
           </div>
-          <div className="column">
+          <div className="columnRight">
             
             <textarea
               className="textArea"
@@ -187,10 +187,10 @@ const AddAlgorithmPage = () => {
         </div>
            
         <div className="rowSmall">
-          <div className="column">
+          <div className="columnLeft">
             <label className="fieldTitle">Code File</label>
           </div>
-          <div className="column">
+          <div className="columnRight">
             <input 
               className="fileClass"
               type="file" 
@@ -200,8 +200,11 @@ const AddAlgorithmPage = () => {
         </div>
 
         <div className="rowSmall">
-          <div className="column">
-            <FormControlLabel
+          <div className="columnLeft">
+            <label className="fieldTitle">Choose algorithm acceptable Models </label>
+            </div>
+          <div className="columnRight">
+          <FormControlLabel
               value= {AlgoType.Regressor}
               className="checkboxLeft"
               control={
@@ -216,9 +219,7 @@ const AddAlgorithmPage = () => {
               />}
               label="For Regression Models"
               labelPlacement="For Regression Models"
-              />          
-            </div>
-          <div className="column">
+              /> 
             <FormControlLabel
             className="checkboxRight"
             value={AlgoType.Classifier}
