@@ -55,8 +55,18 @@ button:hover {
 
 }
 
-
-
+.backButtonRow{
+  height: 5%;
+  width: 100%;
+}
+.titleRow{
+  width: 100%;
+  height: 10%;
+}
+.subTitleRub{
+  width: 100%;
+  height: 5%;
+}
 .fieldTitle{
   color: white;
   font-size: large;
@@ -88,6 +98,7 @@ button:hover {
 .fileClass{
   float:left;
   color: white;
+  cursor: pointer;
 }
 .rowSmall{
   width: 100%;

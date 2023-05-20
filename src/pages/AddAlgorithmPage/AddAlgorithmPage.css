@@ -13,6 +13,16 @@
     font-size: xxx-large;
   }
 
+  .columnLeftAddAlgo{
+    float: left;
+    width: 33.3%;
+    height: 100%;
+  }
+  .columnRightAddAlgo{
+    float: left;
+    width: 66.7%;
+    height: 100%;
+  }
 
 
 .fields{
@@ -26,7 +36,6 @@
     height: 35px;
 
 }
-
 
 .checkboxLeft{
     color: white;

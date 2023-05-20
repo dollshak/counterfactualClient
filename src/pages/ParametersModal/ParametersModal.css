@@ -10,9 +10,13 @@
     background-color: rgba(0, 0, 0, 0.5);
   }
   
+  .descriptionRow{
+    height: 20%;
+    width: 100%;
+  }
   .modal_container {
     position: relative;
-    background-color: white;
+    background-color: #2e2e2e;
     width: 100%;
     height: 100%;
     padding: 20px;
@@ -22,6 +26,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .algo_info{
+    color: white;
+    font-size: medium;
   }
   
   .title_close_button {
@@ -35,6 +44,8 @@
   
   .algo_desc {
     margin-bottom: 20px;
+    color:white;
+    
   }
 
   .input-form{
@@ -44,15 +55,34 @@
   
   .params_list {
     margin-bottom: 20px;
+    width: 100%;
+    height: 50%;
+    overflow: auto;
+
   }
   
   .param {
-    margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    margin-bottom: 40px;
-    width: 500px
+    width: 100%;
+    height: 20%;
+  }
+  .timeParam {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    height: 10%;
+  }
+  .dictParam {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    height: 40%;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   
   .desc_and_types {
@@ -66,7 +96,10 @@
   .desc {
     font-size: 14px;
   }
-  
+  .radioTxt{
+    color: white;
+    font-size: large;
+  }
   .types {
     font-size: 14px;
     margin-right: 5px;
@@ -76,7 +109,8 @@
   .PM_types {
     display: flex;
     flex-wrap: wrap;
-    margin-left: 5px;
+    margin-left: 15px;
+    color: white;
   }
   
   .PM_types div {
@@ -90,11 +124,13 @@
     margin-left: 5px;
   }
   
-  .input {
+  .input {   
     padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 3px;
-    margin-left: 10px;
+    /* margin-left: 10px; */
+    width: 100%;
+    height: 70%;
+    border-radius: 7px;
   }
 
   .arg-label{
@@ -146,4 +182,55 @@
   .dict-popup{
     width: auto;
   }
-  
+
+  .columnLeft{
+    width: 33.3%;
+    height: 100%;
+    float: right;
+  } 
+  .columnCenter{
+    width: 33.3%;
+    height: 100%;
+  } 
+  .columnRight{
+    width: 33.3%;
+    height: 100%;
+    float: left;
+  }
+  .defaultValButton{
+    height: 70%;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 7px;
+    font-size: small;
+  }
+  .defaultValButton:disabled{
+    background-color: gray;
+
+    cursor: auto !important;
+  }
+   .defaultValButton:not(:disabled):hover {
+    background-color: green;
+  }
+   .defaultValButton:disabled:hover {
+    background-color: gray;
+    color: black;
+  }
+  .defaultValueSubColumn{
+    height: 100%;
+    width: 30%;
+    float: left;
+  }
+  .typesSubColumn{
+    height: 100%;
+    width: 70%;
+    float: left;
+  }
+
+  .textAreaInputs{
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
+    resize: none;
+    
+  }

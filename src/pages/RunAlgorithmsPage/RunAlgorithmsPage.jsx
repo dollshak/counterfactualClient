@@ -95,7 +95,7 @@ const RunAlgorithmsPage = () => {
           "argument_lst": [
               {
                   "accepted_types": [
-                      "list"
+                      "dictionary"
                   ],
                   "default_value": null,
                   "description": "features name and ranges",
