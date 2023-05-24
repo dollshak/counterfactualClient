@@ -13,18 +13,18 @@ const HomePage = () => {
   };
   return (
     <div className="backgroundComp">
-        <p class="mainTitle">Welcome!</p>
-        <p class="subTitle">please choose your action</p>    
-        <div>
-          <button className="button" onClick={onClickAddAlgorithm}>
-            Add New Algorithm
-          </button>
-        </div>    
-        <div>
-          <button className="button" onClick={onClickRunAlgorithms}>
-            run algorithms
-          </button>
-        </div>
+      <p className="mainTitle">Welcome!</p>
+      <p className="subTitle">please choose your action</p>
+      <div>
+        <button className="button" onClick={onClickAddAlgorithm}>
+          Add New Algorithm
+        </button>
+      </div>
+      <div>
+        <button className="button" onClick={onClickRunAlgorithms}>
+          run algorithms
+        </button>
+      </div>
     </div>
   );
 };

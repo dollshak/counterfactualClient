@@ -8,6 +8,10 @@ const ResultsPage = () => {
 
   // const state = {
   //   input: { size: 4, color: 2 },
+  //   input: {
+  //      values: [4, 2]
+  //      names: [size, color]
+  //}
   //   output: {
   //     alibi: [
   //       [5, 8],
@@ -30,7 +34,7 @@ const ResultsPage = () => {
   // const body = [["input", [Object.values(state.input)]]];
 
   const inputList = Object.entries(state.output).flatMap(([key, values]) => {
-    return values.map((innerArray) => {
+    return values.results.map((innerArray) => {
       return [key, ...innerArray];
     });
   });
@@ -51,13 +55,13 @@ const ResultsPage = () => {
       <h1>Results</h1>
       <h2 className="input-output-title">input</h2>
       <Table
-        tableHeaders={Object.keys(state.input)}
-        rows={body}
+        tableHeaders={state.input.names}
+        rows={[state.input.values]}
         isInput={true}
       ></Table>
       <h2 className="input-output-title">output</h2>
       <Table
-        tableHeaders={["algorithm", ...Object.keys(state.input)]}
+        tableHeaders={["algorithm", ...state.input.names]}
         rows={inputList}
         isInput={false}
       ></Table>

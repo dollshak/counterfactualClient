@@ -51,6 +51,7 @@ const ResultsTable = ({ tableHeaders, rows, isInput }) => {
       {columnHeader}
     </th>
   ));
+  console.log(headers);
 
   const sort = (rowsToSort) => {
     if (sortColumn !== null) {
