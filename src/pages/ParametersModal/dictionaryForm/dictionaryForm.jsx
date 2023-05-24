@@ -4,12 +4,9 @@ import JsonEditor from "react-json-editor-ui";
 import "react-json-editor-ui/dist/react-json-editor-ui.cjs.development.css";
 import "./dictionaryForm.css";
 
-const DictionaryForm = (
-  {
-    // setTempAlgoInputs,
-    // currDict,
-  }
-) => {
+const DictionaryForm = ({ setTempAlgoInputs, fieldName, open, onClose }) => {
+  // const [editObject, setEditObject] = React.useState({});
+
   const [editObject, setEditObject] = React.useState({
     name: "may",
     age: null,
@@ -27,12 +24,24 @@ const DictionaryForm = (
     },
   });
 
+  const onDictChange = (data) => {
+    setEditObject(data);
+    setTempAlgoInputs((prevInputs) => ({
+      ...prevInputs,
+      [fieldName]: JSON.stringify(editObject),
+    }));
+  };
+
+  if (!open) {
+    return null;
+  }
+
   return (
     <div className="dict-container">
       <JsonEditor
         data={editObject}
         onChange={(data) => {
-          setEditObject(data);
+          onDictChange(data);
         }}
         optionsMap={{
           color: [

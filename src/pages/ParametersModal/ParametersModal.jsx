@@ -32,6 +32,7 @@ export const ParametersModal = ({
   const [openDictModal, setOpenDictModal] = useState(false);
   const [timeLimit, setTimeLimit] = useState("");
   const [isUseTimeLimit, setIsUseTimeLimit] = useState(false);
+  const [dictParamName, setDictParamName] = useState("");
   useEffect(() => {
     setTempAlgoInputs(algo ? { ...algosInputs[algo.name] } : {});
     if (algo) {
@@ -137,8 +138,9 @@ export const ParametersModal = ({
     }
   };
 
-  const onAddDictClick = () => {
+  const onAddDictClick = (arg) => {
     setOpenDictModal(true);
+    setDictParamName(arg.param_name);
   };
 
   const onSwitchTimeLimit = () => {
@@ -210,13 +212,17 @@ export const ParametersModal = ({
         </div>
         <div>
           {openDictModal && (
-            <Popup
-              className="dict-popup"
+            // <Popup
+            //   className="dict-popup"
+            //   open={openDictModal}
+            //   onClose={() => setOpenDictModal(false)}
+            // >
+            <DictionaryForm
+              setTempAlgoInputs={setTempAlgoInputs}
+              fieldName={dictParamName}
               open={openDictModal}
-              onClose={() => setOpenDictModal(false)}
-            >
-              <DictionaryForm></DictionaryForm>
-            </Popup>
+            ></DictionaryForm>
+            // {/* </Popup> */}
           )}
         </div>
         <div className="titleRow">
@@ -280,7 +286,10 @@ export const ParametersModal = ({
                   )}
                 {inputTypes[arg.param_name] &&
                   inputTypes[arg.param_name] === "dictionary" && (
-                    <button key={arg.param_name} onClick={onAddDictClick}>
+                    <button
+                      key={arg.param_name}
+                      onClick={() => onAddDictClick(arg)}
+                    >
                       add
                     </button>
                   )}

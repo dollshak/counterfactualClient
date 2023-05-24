@@ -23,3 +23,7 @@
     flex-direction: column;
     align-items: center;
   }
+
+  .dict-container{
+    height: 200px;
+  }
