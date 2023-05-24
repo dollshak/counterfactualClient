@@ -145,6 +145,41 @@ export const ParametersModal = ({
     setIsUseTimeLimit(!isUseTimeLimit);
   };
 
+  const fillParams = () => {
+    if (algo.name === "dice") {
+      setTempAlgoInputs((prevInputs) => ({
+        ...prevInputs,
+        ["features"]: JSON.stringify({
+          income: [2500, 40000],
+          outcome: [2500, 20000],
+          total: [10000, 200000],
+          loan: [25000, 1000000],
+        }),
+        ["outcome_name"]: "label",
+        ["total_CFs"]: 4,
+        ["desired_class"]: 2,
+        ["desired_range"]: JSON.stringify([0.8, 1.0]),
+        ["is_classifie"]: false,
+      }));
+    } else if (algo.name === "wachter") {
+      setTempAlgoInputs((prevInputs) => ({
+        ...prevInputs,
+        ["MADs"]: JSON.stringify([12540.0, 7496.0, 60169.0, 275481.5]),
+        ["ranges"]: JSON.stringify([
+          [5000, 20000],
+          [5000, 10000],
+          [20000, 100000],
+          [50000, 500000],
+        ]),
+        ["ytag"]: 1,
+        ["epsilon"]: 0.1,
+        ["Lambda"]: 1,
+        ["learning_rate"]: 0.2,
+        ["max_iter"]: 200,
+      }));
+    }
+  };
+
   const getPlaceholderByType = (type) => {
     let placeholder = "example: ";
     switch (type) {
@@ -167,6 +202,10 @@ export const ParametersModal = ({
         <div className="backButtonRow">
           <button className="back_button" onClick={onClose}>
             x
+          </button>
+
+          <button className="back_button" onClick={fillParams}>
+            Automathic fill
           </button>
         </div>
         <div>
