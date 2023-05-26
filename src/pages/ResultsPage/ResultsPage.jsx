@@ -47,7 +47,7 @@ const ResultsPage = () => {
   console.log(state);
   console.log(Object.values(state.output));
 
-  const times = Object.values(state.output).map((entry) => entry.time + "ms");
+  const times = Object.values(state.output).map((entry) => entry.time + "s");
   console.log(times);
 
   const onBackClick = () => {
