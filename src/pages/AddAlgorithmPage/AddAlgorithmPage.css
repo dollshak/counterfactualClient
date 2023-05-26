@@ -1,11 +1,21 @@
-.backgroundComp{
+/* .backgroundComp{
+
     background:#2e2e2e;
     height: 100%;
     position: fixed;
     width: 100%;
     text-align: center;
-    display: flex;
-    flex-direction: column;
+
+} */
+
+.addAlgo-container{
+  display: flex;
+  flex-direction: column;
+  background: #2e2e2e;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  text-align: center;
 }
 .mainTitle {
     color: white;

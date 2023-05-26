@@ -7,6 +7,8 @@ import { AlgoType } from "../../Objects/ConfigService";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { pink } from "@mui/material/colors";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddAlgorithmPage = () => {
   const [algorithmFile, setAlgorithmFile] = useState();
@@ -18,8 +20,6 @@ const AddAlgorithmPage = () => {
   const [algoTypes, setAlgoTypes] = useState([]);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
-  const [showGoodMessage, setShowGoodMessage] = useState(false);
-  const [showBadMessage, setShowBadMessage] = useState(false);
   const [isSubmitValid, setIsSubmitValid] = useState(false);
   const api = Axios.create({
     baseURL: "http://127.0.0.1:5000",
@@ -33,8 +33,6 @@ const AddAlgorithmPage = () => {
   });
   const onNameChange = (event) => {
     setAlgoName(event.target.value);
-    setShowBadMessage(false);
-    setShowGoodMessage(false);
   };
   const onDescChange = (event) => {
     setAlgoDesc(event.target.value);
@@ -67,6 +65,7 @@ const AddAlgorithmPage = () => {
     }
   };
   const onAddClick = () => {
+    console.log("starting to add");
     if (!algorithmFile) {
       return;
     }
@@ -85,16 +84,12 @@ const AddAlgorithmPage = () => {
         },
       })
       .then((res) => {
-        setShowGoodMessage(true);
-        setShowBadMessage(false);
-        setTimeout(() => {
-          navigate("/");
-        }, 3000);
+        toast.success("algorithm was added successfully");
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
-        setShowBadMessage(true);
-        setShowGoodMessage(false);
+        toast.error("could not add algorithm");
       });
   };
 
@@ -117,15 +112,17 @@ const AddAlgorithmPage = () => {
   };
 
   return (
-    <div className="backgroundComp">
+    <div className="addAlgo-container">
       <div>
         <button className="back_button" onClick={onBackClick}>
           <h1>
             <HomeIcon />
           </h1>
         </button>
-        <h1 className="mainTitle">Add New Algorithm</h1>
+        <ToastContainer hideProgressBar={true} />
       </div>
+      <h1 className="mainTitle">Add New Algorithm</h1>
+
       <div className="fields">
         <div className="rowSmall">
           <div className="columnLeftAddAlgo">
@@ -264,14 +261,6 @@ const AddAlgorithmPage = () => {
           add
         </button>
       </div>
-      {showGoodMessage && (
-        <p className="AAP_good_message">algorithm was added succecfully</p>
-      )}
-      {showBadMessage && (
-        <p className="errorMessage">
-          there was a problem adding your algorithm
-        </p>
-      )}
     </div>
   );
 };

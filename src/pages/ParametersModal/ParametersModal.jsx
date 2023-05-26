@@ -11,6 +11,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import TimerRoundedIcon from "@mui/icons-material/TimerRounded";
 import TimerOffRoundedIcon from "@mui/icons-material/TimerOffRounded";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export const ParametersModal = ({
   open,
   onClose,
@@ -126,6 +128,8 @@ export const ParametersModal = ({
       [algo.name]: tempalgoInputVals,
     }));
 
+    toast.success("added parameters");
+
     onClose();
   };
 
@@ -205,24 +209,18 @@ export const ParametersModal = ({
           <button className="back_button" onClick={onClose}>
             x
           </button>
-
+          <ToastContainer hideProgressBar={true} />
           <button className="back_button" onClick={fillParams}>
             Automathic fill
           </button>
         </div>
         <div>
           {openDictModal && (
-            // <Popup
-            //   className="dict-popup"
-            //   open={openDictModal}
-            //   onClose={() => setOpenDictModal(false)}
-            // >
             <DictionaryForm
               setTempAlgoInputs={setTempAlgoInputs}
               fieldName={dictParamName}
               open={openDictModal}
             ></DictionaryForm>
-            // {/* </Popup> */}
           )}
         </div>
         <div className="titleRow">
@@ -354,13 +352,6 @@ export const ParametersModal = ({
               </div>
             </div>
           ))}
-
-          {/* {
-            <DictionaryFormModal
-              setDictModalOpen={setDictionaryModalOpen}
-              open={dictionaryModalOpen}
-            ></DictionaryFormModal>
-          } */}
         </div>
         <div className="timeParam">
           <dev className="columnLeft">

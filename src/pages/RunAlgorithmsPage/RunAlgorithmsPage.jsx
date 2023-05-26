@@ -5,12 +5,11 @@ import Axios from "axios";
 import DictionaryForm from "../ParametersModal/dictionaryForm/dictionaryForm";
 import { AlgoType } from "../../Objects/ConfigService";
 import HomeIcon from "@mui/icons-material/Home";
-import Checkbox from "@mui/material/Checkbox";
 import Switch, { SwitchProps } from "@mui/material/Switch";
-import Dropdown from "../../components/Dropdown/Dropdown";
-
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const RunAlgorithmsPage = () => {
   const navigate = useNavigate();
@@ -43,6 +42,10 @@ const RunAlgorithmsPage = () => {
     console.log(algosInputs);
 
     console.log(formData);
+    const loadingToastId = toast.loading("Running the algorithms...", {
+      autoClose: false,
+    });
+
     api
       .post("/runAlgorithm", formData, {
         headers: {
@@ -51,9 +54,12 @@ const RunAlgorithmsPage = () => {
       })
       .then((res) => {
         console.log(res.data);
+        toast.dismiss(loadingToastId);
         navigate("/results", { state: res.data });
       })
       .catch((err) => {
+        toast.dismiss(loadingToastId);
+        toast.error("there was a problem running the algorithms");
         console.log(err);
       });
   };
@@ -151,10 +157,6 @@ const RunAlgorithmsPage = () => {
   //   ]
   // }
   useEffect(() => {
-    // const dummyResult  = getDummyAlgos()
-    // setAlgorithmsList(dummyResult)
-    // setAlgorithmsListFiltered(dummyResult.filter(a => a.algo_type.includes(selectedType)))
-
     api
       .get("/getAllAlgorithms")
       .then((res) => {
@@ -203,6 +205,7 @@ const RunAlgorithmsPage = () => {
             <HomeIcon />
           </h1>
         </button>
+        <ToastContainer hideProgressBar={true} />
         <h1 className="mainTitle">Run Algorithms</h1>
       </div>
       <div className="fields">

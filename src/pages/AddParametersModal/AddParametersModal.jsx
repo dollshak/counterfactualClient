@@ -2,7 +2,9 @@ import React, { Fragment, useState } from "react";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import EditableRow from "../../components/EditableRow";
 import ReadOnlyRow from "../../components/ReadOnlyRow";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export const AddParametersModal = ({
   open,
   onClose,
@@ -11,17 +13,15 @@ export const AddParametersModal = ({
 }) => {
   const [newName, setNewName] = useState("");
   const [newDesc, setNewDesc] = useState("");
-  const [newDefaultValue,setNewDefaultValue] = useState(undefined);
+  const [newDefaultValue, setNewDefaultValue] = useState(undefined);
   const [newAcceptedTypes, setNewAcceptedTypes] = useState([]);
-  const [showParamExistMessage, setShowParamExistMessage] = useState(false);
   const [editRow, setEditRow] = useState(null);
   const [editedDesc, setEditedDesc] = useState("");
   const [editedTypes, setEditedTypes] = useState([]);
   const [editedDefVal, setEditedDefVal] = useState("");
   const [isEditedDefValUse, setIsEditedDefValUse] = useState(false);
   const [dropdownSelectedOptions, setDropdownSelectedOptions] = useState([]);
-  const [isUseDefaultValue,setIsUseDefaultValue] = useState(false);
-  const [messageToUser, setMessageToUser] = useState("")
+  const [isUseDefaultValue, setIsUseDefaultValue] = useState(false);
   const acceptedTypes = [
     { value: "float", label: "float" },
     { value: "string", label: "string" },
@@ -53,7 +53,7 @@ export const AddParametersModal = ({
     const paramToModify = paramsList.find(
       (param) => param.param_name === paramName
     );
-    const modifiedDefaultVal =  isEditedDefValUse? editedDefVal : undefined
+    const modifiedDefaultVal = isEditedDefValUse ? editedDefVal : undefined;
 
     if (paramToModify) {
       paramToModify.description = editedDesc;
@@ -62,22 +62,21 @@ export const AddParametersModal = ({
     }
     setParamsList(paramsList);
     setEditRow(null);
-    setEditedDefVal( undefined);
+    setEditedDefVal(undefined);
   };
   const onNameChange = (event) => {
     event.preventDefault();
     setNewName(event.target.value);
   };
-  const onDefaultValueClick =() =>{
-    setIsUseDefaultValue(!isUseDefaultValue)
-  }
+  const onDefaultValueClick = () => {
+    setIsUseDefaultValue(!isUseDefaultValue);
+  };
   const onDescChange = (event) => {
     setNewDesc(event.target.value);
   };
   const onDefaultValChange = (event) => {
     setNewDefaultValue(event.target.value);
   };
-
 
   const parseArg = (argStr, argType) => {
     switch (argType) {
@@ -96,42 +95,44 @@ export const AddParametersModal = ({
       default:
         return argStr;
     }
-  }
-  
+  };
+
   const argStrToVal = (argStr, acceptedTypes) => {
-    if (!argStr ||  argStr ==="" ){
+    if (!argStr || argStr === "") {
       return undefined;
     }
-    for (const argType of acceptedTypes){
-      if (parseArg(argStr, argType)){
-        return parseArg(argStr, argType)
+    for (const argType of acceptedTypes) {
+      if (parseArg(argStr, argType)) {
+        return parseArg(argStr, argType);
       }
     }
     return undefined;
   };
 
-
   const onAddParamClick = (event) => {
     event.preventDefault();
-    let defaultValueToSave = isUseDefaultValue? newDefaultValue : undefined
+    let defaultValueToSave = isUseDefaultValue ? newDefaultValue : undefined;
     const isParamNameExists = paramsList.some(
       (param) => param.param_name === newName
     );
     if (isParamNameExists) {
-      setShowParamExistMessage(true);
-      setMessageToUser("This param name is already exist!");
-    } else if ( newName === undefined || newName === "" || newDesc=== undefined || newDesc === "" || newAcceptedTypes.length <1 ){
+      toast.error("This param name is already exist");
+    } else if (
+      newName === undefined ||
+      newName === "" ||
+      newDesc === undefined ||
+      newDesc === "" ||
+      newAcceptedTypes.length < 1
+    ) {
       // TODO should set time out or change to new feature shaked is using
-      setShowParamExistMessage(true);
-      setMessageToUser("name, description and accepted types must be filled ");
-    }
-    else if (isUseDefaultValue && !argStrToVal(defaultValueToSave, newAcceptedTypes)){
-      setShowParamExistMessage(true);
-      setMessageToUser("default value does not match selected types");
-    } 
-    else {
-      defaultValueToSave = argStrToVal(defaultValueToSave, newAcceptedTypes)
-      setShowParamExistMessage(false);
+      toast.error("name, description and accepted types must be filled ");
+    } else if (
+      isUseDefaultValue &&
+      !argStrToVal(defaultValueToSave, newAcceptedTypes)
+    ) {
+      toast.error("default value does not match selected types");
+    } else {
+      defaultValueToSave = argStrToVal(defaultValueToSave, newAcceptedTypes);
       const newParam = {
         param_name: newName,
         description: newDesc,
@@ -145,18 +146,23 @@ export const AddParametersModal = ({
       setNewAcceptedTypes([]);
       setDropdownSelectedOptions([]);
       setNewDefaultValue("");
-      setIsUseDefaultValue(false)
+      setIsUseDefaultValue(false);
     }
   };
 
-  
+  const onSaveClick = () => {
+    toast.success("added parameters");
+    onClose();
+  };
+
   return (
     <div className="backgroundComp">
-       <div>
-       <button className="back_button" onClick={onClose}>
+      <div>
+        <button className="back_button" onClick={onClose}>
           x
         </button>
       </div>
+      <ToastContainer hideProgressBar={true} />
       <div>
         <h1 className="mainTitle">Parameters</h1>
       </div>
@@ -182,8 +188,8 @@ export const AddParametersModal = ({
                       setEditedDesc={setEditedDesc}
                       setEditedTypes={setEditedTypes}
                       setEditedDefVal={setEditedDefVal}
-                      setIsEditedDefValUse = {setIsEditedDefValUse}
-                      isEditedDefValUse = {isEditedDefValUse}
+                      setIsEditedDefValUse={setIsEditedDefValUse}
+                      isEditedDefValUse={isEditedDefValUse}
                       onSave={onSave}
                       acceptedTypes={acceptedTypes}
                     />
@@ -215,12 +221,15 @@ export const AddParametersModal = ({
                 </td>
                 <td>
                   <div>
-                    <input type="checkbox"
-                    id="scales" name="scales"
-                    value={isUseDefaultValue}
-                    onChange={onDefaultValueClick}
-                    checked={isUseDefaultValue}
-                    /> set defualt value
+                    <input
+                      type="checkbox"
+                      id="scales"
+                      name="scales"
+                      value={isUseDefaultValue}
+                      onChange={onDefaultValueClick}
+                      checked={isUseDefaultValue}
+                    />{" "}
+                    set defualt value
                   </div>
                   <div>
                     <textarea
@@ -245,7 +254,7 @@ export const AddParametersModal = ({
                     className="action_button"
                     onClick={(event) => onAddParamClick(event)}
                   >
-                    <AddIcon/>
+                    <AddIcon />
                   </button>
                 </td>
               </tr>
@@ -254,10 +263,8 @@ export const AddParametersModal = ({
         </form>
       </div>
 
-      {showParamExistMessage && <p className="errorMessage">{messageToUser} </p>}
-
       <div className="add_save_button_container">
-        <button className="submitButton" onClick={onClose}>
+        <button className="submitButton" onClick={onSaveClick}>
           save
         </button>
       </div>

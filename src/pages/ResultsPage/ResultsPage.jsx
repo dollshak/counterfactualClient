@@ -1,6 +1,10 @@
 import Table from "./Table/Table";
 import "./ResultsPage.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import Popup from "reactjs-popup";
+import { useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ResultsPage = () => {
   const navigate = useNavigate();
@@ -39,27 +43,57 @@ const ResultsPage = () => {
     });
   });
 
-  console.log(inputList);
+  console.log(state);
+  console.log(Object.values(state.output));
 
-  const body = [Object.values(state.input)];
+  const times = Object.values(state.output).map((entry) => entry.time);
+  console.log(times);
 
   const onBackClick = () => {
     navigate("/");
   };
+
+  useEffect(() => {
+    Object.keys(state.output).forEach((algo) => {
+      const { errorMessage } = state.output[algo];
+      if (errorMessage) {
+        toast.error(
+          <div>
+            There was an error in the <strong>{algo}</strong> algorithm:{" "}
+            {errorMessage}
+          </div>
+        );
+      }
+    });
+  }, []);
 
   return (
     <div className="resultsPage-container">
       <button className="back_button" onClick={onBackClick}>
         back
       </button>
-      <h1>Results</h1>
-      <h2 className="input-output-title">input</h2>
+      <ToastContainer hideProgressBar={true} />
+      <h1 className="white-font">Results</h1>
+      <h2 className="input-output-title white-font">input:</h2>
       <Table
         tableHeaders={state.input.names}
         rows={[state.input.values]}
         isInput={true}
       ></Table>
-      <h2 className="input-output-title">output</h2>
+      <h2 className="input-output-title white-font">output:</h2>
+      <Popup
+        trigger={
+          <button className="back_button times_button"> Run-times</button>
+        }
+        position="right center"
+        contentStyle={{ width: "auto", maxHeight: "80vh", overflow: "auto" }}
+      >
+        <Table
+          tableHeaders={Object.keys(state.output)}
+          rows={[times]}
+          isInput={false}
+        ></Table>
+      </Popup>
       <Table
         tableHeaders={["algorithm", ...state.input.names]}
         rows={inputList}
