@@ -10,6 +10,7 @@ const ResultsPage = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [rerender, setRerender] = useState(0);
+  const [filterValue, setFilterValue] = useState("");
 
   // const state = {
   //   input: { size: 4, color: 2 },
@@ -43,6 +44,7 @@ const ResultsPage = () => {
       return [key, ...innerArray];
     });
   });
+  const [filteredRows, setFilteredRows] = useState(inputList);
 
   console.log(state);
   console.log(Object.values(state.output));
@@ -68,6 +70,15 @@ const ResultsPage = () => {
     });
   }, []);
 
+  const handleFilterChange = (event) => {
+    setFilterValue(event.target.value);
+    const filterValue = event.target.value.toLowerCase();
+    const filteredRows = inputList.filter((row) =>
+      row[0].toLowerCase().includes(filterValue)
+    );
+    setFilteredRows(filteredRows);
+  };
+
   const handleClick = () => {
     setRerender((prevClicks) => prevClicks + 1);
   };
@@ -79,14 +90,14 @@ const ResultsPage = () => {
       </button>
       <ToastContainer hideProgressBar={true} />
       <h1 className="white-font mainTitle">Results</h1>
-      <h2 className="input-output-title white-font">input:</h2>
+      <h2 className="white-font">input:</h2>
       <Table
         tableHeaders={state.input.names}
         rows={[state.input.values]}
         isInput={true}
       ></Table>
-      <h2 className="input-output-title white-font">output:</h2>
-      {/* <button onClick={handleClick}>Original order</button> */}
+      <h2 className="output-title white-font">output:</h2>
+      <button onClick={handleClick}>Original order</button>
 
       <Popup
         trigger={
@@ -101,10 +112,19 @@ const ResultsPage = () => {
           isInput={false}
         ></Table>
       </Popup>
+
+      <input
+        type="text"
+        value={filterValue}
+        onChange={handleFilterChange}
+        placeholder="Enter algorithm name"
+      />
       <Table
         tableHeaders={["algorithm", ...state.input.names]}
-        rows={inputList}
+        rows={filteredRows}
         isInput={false}
+        filterValue={filterValue}
+        onFilterChange={handleFilterChange}
       ></Table>
     </div>
   );
