@@ -44,7 +44,7 @@ export const ParametersModal = ({
 
   if (!open) return null;
 
-  console.log(inputTypes);
+  console.log(tempAlgoInputs);
 
   const onParamChange = (event, arg) => {
     let val = event.target.value;
@@ -129,7 +129,6 @@ export const ParametersModal = ({
     }));
 
     toast.success("added parameters");
-
     onClose();
   };
 
@@ -145,6 +144,9 @@ export const ParametersModal = ({
   const onAddDictClick = (arg) => {
     setOpenDictModal(true);
     setDictParamName(arg.param_name);
+    console.log(tempAlgoInputs);
+    console.log(dictParamName);
+    console.log(tempAlgoInputs[dictParamName]);
   };
 
   const onSwitchTimeLimit = () => {
@@ -210,9 +212,11 @@ export const ParametersModal = ({
             x
           </button>
           <ToastContainer hideProgressBar={true} />
-          <button className="back_button" onClick={fillParams}>
-            Automathic fill
-          </button>
+          {algo.name && (algo.name === "dice" || algo.name === "wachter") && (
+            <button className="back_button" onClick={fillParams}>
+              Automathic fill
+            </button>
+          )}
         </div>
         <div>
           {openDictModal && (
@@ -220,6 +224,10 @@ export const ParametersModal = ({
               setTempAlgoInputs={setTempAlgoInputs}
               fieldName={dictParamName}
               open={openDictModal}
+              onClose={() => {
+                setOpenDictModal(false);
+              }}
+              tempAlgoInputs={tempAlgoInputs}
             ></DictionaryForm>
           )}
         </div>
@@ -252,6 +260,17 @@ export const ParametersModal = ({
                 >
                   {arg.param_name}:
                 </label>
+
+                {inputTypes[arg.param_name] &&
+                  inputTypes[arg.param_name] === "dictionary" && (
+                    <button
+                      key={arg.param_name}
+                      onClick={() => onAddDictClick(arg)}
+                      className="add-dict-button"
+                    >
+                      Add dict manualy
+                    </button>
+                  )}
               </div>
               <div className="columnCenter">
                 {inputTypes[arg.param_name] &&
@@ -282,15 +301,6 @@ export const ParametersModal = ({
                       onChange={(event) => onParamChange(event, arg)}
                     />
                   )}
-                {inputTypes[arg.param_name] &&
-                  inputTypes[arg.param_name] === "dictionary" && (
-                    <button
-                      key={arg.param_name}
-                      onClick={() => onAddDictClick(arg)}
-                    >
-                      add
-                    </button>
-                  )}
 
                 {inputTypes[arg.param_name] &&
                   inputTypes[arg.param_name] === "boolean" && (
@@ -303,7 +313,7 @@ export const ParametersModal = ({
                         name="boolean"
                         onChange={(event) => onParamChange(event, arg)}
                       />
-                      <label className="radioTxt" htmlFor="true">
+                      <label className="radioTxt rightRadio" htmlFor="true">
                         true
                       </label>
                       <input
@@ -314,7 +324,7 @@ export const ParametersModal = ({
                         name="boolean"
                         onChange={(event) => onParamChange(event, arg)}
                       />
-                      -
+
                       <label className="radioTxt" htmlFor="false">
                         false
                       </label>
@@ -332,7 +342,10 @@ export const ParametersModal = ({
                   </button>
                 </div>
                 <div className="typesSubColumn">
-                  <Tooltip id={arg.param_name} />
+                  <Tooltip
+                    id={arg.param_name}
+                    style={{ backgroundColor: "pink", color: "black" }}
+                  />
                   <div className="PM_types">
                     {arg.accepted_types.map((type, index) => (
                       <div>

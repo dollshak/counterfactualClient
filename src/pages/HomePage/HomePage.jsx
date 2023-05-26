@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const HomePage = () => {
   const navigate = useNavigate();
 
@@ -12,6 +14,7 @@ const HomePage = () => {
   };
   return (
     <div className="backgroundComp">
+      <ToastContainer hideProgressBar={true} />
       <p className="mainTitle">Welcome!</p>
       <p className="subTitle">please choose your action</p>
       <div>

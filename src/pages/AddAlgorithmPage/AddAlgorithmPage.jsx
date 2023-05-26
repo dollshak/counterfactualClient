@@ -21,6 +21,7 @@ const AddAlgorithmPage = () => {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [isSubmitValid, setIsSubmitValid] = useState(false);
+  const [addingClicked, setAddingClicked] = useState(false);
   const api = Axios.create({
     baseURL: "http://127.0.0.1:5000",
   });
@@ -69,6 +70,10 @@ const AddAlgorithmPage = () => {
     if (!algorithmFile) {
       return;
     }
+
+    const loadingToastId = toast.loading("Adding the algorithm...", {
+      autoClose: false,
+    });
     var formData = new FormData();
     formData.append("file_content", algorithmFile);
     formData.append("name", algoName);
@@ -77,6 +82,7 @@ const AddAlgorithmPage = () => {
     formData.append("additional_info", algoInfo);
     formData.append("output_example", [algoOutputExample]);
     formData.append("type", JSON.stringify(algoTypes));
+    setAddingClicked(true);
     api
       .post("/algorithm", formData, {
         headers: {
@@ -84,11 +90,15 @@ const AddAlgorithmPage = () => {
         },
       })
       .then((res) => {
+        toast.dismiss(loadingToastId);
         toast.success("algorithm was added successfully");
-        navigate("/");
+        setTimeout(() => {
+          navigate("/");
+        }, 2500);
       })
       .catch((err) => {
         console.log(err);
+        toast.dismiss(loadingToastId);
         toast.error("could not add algorithm");
       });
   };
@@ -154,7 +164,7 @@ const AddAlgorithmPage = () => {
 
         <div className="row">
           <div className="columnLeftAddAlgo">
-            <label className="fieldTitle">output example description</label>
+            <label className="fieldTitle">Output example description</label>
           </div>
           <div className="columnRightAddAlgo">
             <textarea
@@ -195,9 +205,7 @@ const AddAlgorithmPage = () => {
 
         <div className="rowSmall">
           <div className="columnLeftAddAlgo">
-            <label className="fieldTitle">
-              Choose algorithm acceptable Models{" "}
-            </label>
+            <label className="fieldTitle">Acceptable Models </label>
           </div>
           <div className="columnRightAddAlgo">
             <FormControlLabel
@@ -214,8 +222,8 @@ const AddAlgorithmPage = () => {
                   onChange={onTypeClick}
                 />
               }
-              label="For Regression Models"
-              labelPlacement="For Regression Models"
+              label="Regression Models"
+              labelPlacement="Regression Models"
             />
             <FormControlLabel
               className="checkboxRight"
@@ -231,8 +239,8 @@ const AddAlgorithmPage = () => {
                   onChange={onTypeClick}
                 />
               }
-              label="For Classification Models"
-              labelPlacement="For Classification Models"
+              label="Classification Models"
+              labelPlacement="Classification Models"
             />
           </div>
         </div>
@@ -240,7 +248,9 @@ const AddAlgorithmPage = () => {
         <div className="row">
           <div className="shortInput">
             <button className="paramsButton" onClick={onAddParamsClick}>
-              Add Parameters
+              {parametersList.length === 0
+                ? "Add Parameters"
+                : "Edit parameters"}
             </button>
           </div>
         </div>
@@ -255,7 +265,7 @@ const AddAlgorithmPage = () => {
       <div>
         <button
           className="submitButton"
-          disabled={!isSubmitValid}
+          disabled={!isSubmitValid || addingClicked}
           onClick={onAddClick}
         >
           add

@@ -2,13 +2,14 @@ import Table from "./Table/Table";
 import "./ResultsPage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ResultsPage = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [rerender, setRerender] = useState(0);
 
   // const state = {
   //   input: { size: 4, color: 2 },
@@ -46,7 +47,7 @@ const ResultsPage = () => {
   console.log(state);
   console.log(Object.values(state.output));
 
-  const times = Object.values(state.output).map((entry) => entry.time);
+  const times = Object.values(state.output).map((entry) => entry.time + "ms");
   console.log(times);
 
   const onBackClick = () => {
@@ -67,13 +68,17 @@ const ResultsPage = () => {
     });
   }, []);
 
+  const handleClick = () => {
+    setRerender((prevClicks) => prevClicks + 1);
+  };
+
   return (
     <div className="resultsPage-container">
       <button className="back_button" onClick={onBackClick}>
         back
       </button>
       <ToastContainer hideProgressBar={true} />
-      <h1 className="white-font">Results</h1>
+      <h1 className="white-font mainTitle">Results</h1>
       <h2 className="input-output-title white-font">input:</h2>
       <Table
         tableHeaders={state.input.names}
@@ -81,6 +86,8 @@ const ResultsPage = () => {
         isInput={true}
       ></Table>
       <h2 className="input-output-title white-font">output:</h2>
+      {/* <button onClick={handleClick}>Original order</button> */}
+
       <Popup
         trigger={
           <button className="back_button times_button"> Run-times</button>

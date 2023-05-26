@@ -206,8 +206,8 @@ const RunAlgorithmsPage = () => {
           </h1>
         </button>
         <ToastContainer hideProgressBar={true} />
-        <h1 className="mainTitle">Run Algorithms</h1>
       </div>
+      <h1 className="mainTitle">Run Algorithms</h1>
       <div className="fields">
         <div className="row">
           <div className="column">
@@ -224,7 +224,7 @@ const RunAlgorithmsPage = () => {
 
         <div className="rowModels">
           <div className="column">
-            <label className="fieldTitle">Counterfactual selection</label>
+            <label className="fieldTitle">Choose Algorithms</label>
           </div>
           <div className="column">
             <label
@@ -273,7 +273,7 @@ const RunAlgorithmsPage = () => {
 
         <div className="rowSmall">
           <div className="column">
-            <p className="fieldTitle">upload a model:</p>
+            <p className="fieldTitle">Upload a model</p>
           </div>
           <div className="column">
             <input
@@ -287,7 +287,7 @@ const RunAlgorithmsPage = () => {
         </div>
         <div className="rowSmall">
           <div className="column">
-            <p className="fieldTitle">upload model parameters:</p>
+            <p className="fieldTitle">Upload model parameters</p>
           </div>
           <div className="column">
             <input

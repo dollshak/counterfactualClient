@@ -34,8 +34,8 @@ const ResultsTable = ({ tableHeaders, rows, isInput }) => {
   );
 
   const toTableRows = (res) => {
-    return res.map((row) => (
-      <tr>
+    return res.map((row, index) => (
+      <tr key={index}>
         {row.map((value) => (
           <td>{value}</td>
         ))}
