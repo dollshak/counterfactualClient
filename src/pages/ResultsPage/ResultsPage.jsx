@@ -5,6 +5,7 @@ import Popup from "reactjs-popup";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CSVLink, CSVDownload } from "react-csv";
 
 const ResultsPage = () => {
   const navigate = useNavigate();
@@ -81,6 +82,11 @@ const ResultsPage = () => {
     setFilteredRows(filteredRows);
   };
 
+  const tableForExcel = [["algorithm", ...state.input.names], ...filteredRows];
+  const numbers = Array(filteredRows.length)
+    .fill()
+    .map((_, index) => index + 1);
+
   return (
     <div className="resultsPage-container">
       <button className="back_button" onClick={onBackClick}>
@@ -96,26 +102,7 @@ const ResultsPage = () => {
       ></Table>
       <div>
         <h2 className="output-title white-font">output:</h2>
-
-        <div className="additional-options">
-          <Popup
-            trigger={
-              <button className="back_button times_button"> Run-times</button>
-            }
-            position="right center"
-            contentStyle={{
-              width: "auto",
-              maxHeight: "80vh",
-              overflow: "auto",
-            }}
-          >
-            <Table
-              tableHeaders={Object.keys(state.output)}
-              rows={[times]}
-              isInput={false}
-            ></Table>
-          </Popup>
-
+        <div className="options-row">
           <input
             type="text"
             value={filterValue}
@@ -123,13 +110,43 @@ const ResultsPage = () => {
             placeholder="Enter algorithm name"
             className="filterInput"
           />
+          <div className="additional-options">
+            <Popup
+              trigger={
+                <button className="back_button times_button">
+                  {" "}
+                  View run-times
+                </button>
+              }
+              position="right center"
+              contentStyle={{
+                width: "auto",
+                maxHeight: "80vh",
+                overflow: "auto",
+              }}
+            >
+              <Table
+                tableHeaders={Object.keys(state.output)}
+                rows={[times]}
+                isInput={false}
+              ></Table>
+            </Popup>
+
+            <CSVLink
+              data={tableForExcel}
+              filename={"results.csv"}
+              className="csvButton"
+            >
+              Export to excel file
+            </CSVLink>
+          </div>
         </div>
+
         <Table
-          tableHeaders={["algorithm", ...state.input.names]}
-          rows={filteredRows}
+          tableHeaders={["order", "algorithm", ...state.input.names]}
+          rows={filteredRows.map((row, index) => [index + 1, ...row])}
           isInput={false}
           filterValue={filterValue}
-          onFilterChange={handleFilterChange}
         ></Table>
       </div>
     </div>

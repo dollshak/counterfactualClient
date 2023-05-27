@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Dropdown from "./Dropdown/Dropdown";
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined';
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import SaveAsOutlinedIcon from "@mui/icons-material/SaveAsOutlined";
 function EditableRow({
   param,
   setEditRow,
@@ -27,8 +27,8 @@ function EditableRow({
   };
   return (
     <tr id={param.param_name}>
-      <td className="nameEdit">{param.param_name}</td>
-      <td className="desc">
+      <td className="nameEdit paramTd">{param.param_name}</td>
+      <td className="desc paramTd">
         <input
           type="text"
           required="required"
@@ -37,27 +37,29 @@ function EditableRow({
           onChange={(event) => setEditedDesc(event.target.value)}
         ></input>
       </td>
-      <td className="defaultValue">
-
-          <div>
-            <input type="checkbox"
-            id="scales" name="scales"
-            value={isEditedDefValUse} 
+      <td className="defaultValue paramTd">
+        <div>
+          <input
+            type="checkbox"
+            id="scales"
+            name="scales"
+            value={isEditedDefValUse}
             onChange={(event) => setIsEditedDefValUse(!isEditedDefValUse)}
             checked={isEditedDefValUse}
-            /> set defualt value
-          </div>
-          <div>
-            <input
-              className="desc_input"
-              type="text"
-              placeholder={param.default_value}
-              onChange={(event) => setEditedDefVal(event.target.value)}
-              disabled={!isEditedDefValUse}
-            />
-          </div>
+          />{" "}
+          set defualt value
+        </div>
+        <div>
+          <input
+            className="desc_input"
+            type="text"
+            placeholder={param.default_value}
+            onChange={(event) => setEditedDefVal(event.target.value)}
+            disabled={!isEditedDefValUse}
+          />
+        </div>
       </td>
-      <td className="types">
+      <td className="types paramTd">
         <Dropdown
           options={acceptedTypes}
           selectedOptions={dropdownSelectedOptions}
@@ -65,18 +67,20 @@ function EditableRow({
           setSelectedOptionsList={setEditedTypes}
         ></Dropdown>
       </td>
-      <td>
+      <td className="paramTd">
         <button
           className="action_button"
           onClick={(event) => onSave(event, param.param_name)}
           title="save"
         >
-          <SaveAsOutlinedIcon/>
+          <SaveAsOutlinedIcon />
         </button>
-        <button className="action_button_cancel" onClick={onCancel}
+        <button
+          className="action_button_cancel"
+          onClick={onCancel}
           title="cancel"
-          >
-          <CancelOutlinedIcon/>
+        >
+          <CancelOutlinedIcon />
         </button>
       </td>
     </tr>

@@ -128,7 +128,7 @@ export const ParametersModal = ({
       [algo.name]: tempalgoInputVals,
     }));
 
-    toast.success("added parameters");
+    toast.success("added parameters", { autoClose: 2000 });
     onClose();
   };
 

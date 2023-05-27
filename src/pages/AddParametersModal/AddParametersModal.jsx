@@ -151,7 +151,7 @@ export const AddParametersModal = ({
   };
 
   const onSaveClick = () => {
-    toast.success("added parameters");
+    toast.success("added parameters", { autoClose: 2000 });
     onClose();
   };
 
@@ -203,7 +203,7 @@ export const AddParametersModal = ({
                 </Fragment>
               ))}
               <tr className="add_param_row">
-                <td>
+                <td className="paramTd">
                   <input
                     className="name_input"
                     type="text"
@@ -211,7 +211,7 @@ export const AddParametersModal = ({
                     onChange={onNameChange}
                   />
                 </td>
-                <td>
+                <td className="paramTd">
                   <textarea
                     className="desc_input"
                     type="text"
@@ -219,7 +219,7 @@ export const AddParametersModal = ({
                     onChange={onDescChange}
                   />
                 </td>
-                <td>
+                <td className="paramTd">
                   <div>
                     <input
                       type="checkbox"
@@ -241,7 +241,7 @@ export const AddParametersModal = ({
                     />
                   </div>
                 </td>
-                <td>
+                <td className="paramTd">
                   <Dropdown
                     options={acceptedTypes}
                     selectedOptions={dropdownSelectedOptions}
@@ -249,7 +249,7 @@ export const AddParametersModal = ({
                     setSelectedOptionsList={setNewAcceptedTypes}
                   ></Dropdown>
                 </td>
-                <td>
+                <td className="paramTd">
                   <button
                     className="action_button"
                     onClick={(event) => onAddParamClick(event)}
