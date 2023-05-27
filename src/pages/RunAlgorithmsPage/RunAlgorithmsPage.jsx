@@ -31,15 +31,11 @@ const RunAlgorithmsPage = () => {
 
   const onSubmit = () => {
     const algo_names = Object.keys(algosInputs);
-    const arg_list_obj = Object.values(algosInputs);
-    const arg_list = arg_list_obj.map((obj) => Object.values(obj));
     var formData = new FormData();
     formData.append("algo_names", JSON.stringify(algo_names));
     formData.append("arg_list", JSON.stringify(algosInputs));
     formData.append("model_file", modelFile);
     formData.append("model_input", modelInputsFile);
-    console.log("algo names " + JSON.stringify(algo_names));
-    console.log(algosInputs);
 
     console.log(formData);
     const loadingToastId = toast.loading("Running the algorithms...", {

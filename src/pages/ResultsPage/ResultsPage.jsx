@@ -9,8 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 const ResultsPage = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [rerender, setRerender] = useState(0);
   const [filterValue, setFilterValue] = useState("");
+  const [showedMessage, setShowedMessage] = useState(false);
 
   // const state = {
   //   input: { size: 4, color: 2 },
@@ -57,9 +57,11 @@ const ResultsPage = () => {
   };
 
   useEffect(() => {
+    console.log(showedMessage);
     Object.keys(state.output).forEach((algo) => {
       const { errorMessage } = state.output[algo];
-      if (errorMessage) {
+      if (errorMessage && !showedMessage) {
+        setShowedMessage(true);
         toast.error(
           <div>
             There was an error in the <strong>{algo}</strong> algorithm:{" "}
@@ -79,10 +81,6 @@ const ResultsPage = () => {
     setFilteredRows(filteredRows);
   };
 
-  const handleClick = () => {
-    setRerender((prevClicks) => prevClicks + 1);
-  };
-
   return (
     <div className="resultsPage-container">
       <button className="back_button" onClick={onBackClick}>
@@ -96,36 +94,44 @@ const ResultsPage = () => {
         rows={[state.input.values]}
         isInput={true}
       ></Table>
-      <h2 className="output-title white-font">output:</h2>
-      <button onClick={handleClick}>Original order</button>
+      <div>
+        <h2 className="output-title white-font">output:</h2>
 
-      <Popup
-        trigger={
-          <button className="back_button times_button"> Run-times</button>
-        }
-        position="right center"
-        contentStyle={{ width: "auto", maxHeight: "80vh", overflow: "auto" }}
-      >
+        <div className="additional-options">
+          <Popup
+            trigger={
+              <button className="back_button times_button"> Run-times</button>
+            }
+            position="right center"
+            contentStyle={{
+              width: "auto",
+              maxHeight: "80vh",
+              overflow: "auto",
+            }}
+          >
+            <Table
+              tableHeaders={Object.keys(state.output)}
+              rows={[times]}
+              isInput={false}
+            ></Table>
+          </Popup>
+
+          <input
+            type="text"
+            value={filterValue}
+            onChange={handleFilterChange}
+            placeholder="Enter algorithm name"
+            className="filterInput"
+          />
+        </div>
         <Table
-          tableHeaders={Object.keys(state.output)}
-          rows={[times]}
+          tableHeaders={["algorithm", ...state.input.names]}
+          rows={filteredRows}
           isInput={false}
+          filterValue={filterValue}
+          onFilterChange={handleFilterChange}
         ></Table>
-      </Popup>
-
-      <input
-        type="text"
-        value={filterValue}
-        onChange={handleFilterChange}
-        placeholder="Enter algorithm name"
-      />
-      <Table
-        tableHeaders={["algorithm", ...state.input.names]}
-        rows={filteredRows}
-        isInput={false}
-        filterValue={filterValue}
-        onFilterChange={handleFilterChange}
-      ></Table>
+      </div>
     </div>
   );
 };

@@ -18,7 +18,6 @@
 }
 
 .times_button{
-    align-self: center;
     width: 100px;
     height: 35px;
     margin-bottom: 10px;
@@ -26,4 +25,14 @@
 
 .white-font{
     color: white;
+}
+
+.additional-options{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.filterInput{
+    margin-bottom: 10px;
 }
