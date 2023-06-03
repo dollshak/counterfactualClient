@@ -54,6 +54,7 @@ const RunAlgorithmsPage = () => {
         navigate("/results", { state: res.data });
       })
       .catch((err) => {
+        console.log(err.data);
         toast.dismiss(loadingToastId);
         toast.error("there was a problem running the algorithms");
         console.log(err);

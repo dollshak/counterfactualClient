@@ -167,7 +167,7 @@ export const ParametersModal = ({
         ["total_CFs"]: 4,
         ["desired_class"]: 2,
         ["desired_range"]: JSON.stringify([0.8, 1.0]),
-        ["is_classifie"]: false,
+        // ["is_classifier"]: false,
       }));
     } else if (algo.name === "wachter") {
       setTempAlgoInputs((prevInputs) => ({
