@@ -120,3 +120,15 @@ button:hover {
   height: 100%;
   width: 50%;
 }
+
+.popupAlgoList{
+  display: flex;
+  flex-direction: column;
+}
+
+.popupButton{
+  width: auto;
+  margin-bottom: 5px;
+  height: 38px;
+  font-size: 20px;
+}

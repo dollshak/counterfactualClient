@@ -54,9 +54,8 @@ const RunAlgorithmsPage = () => {
         navigate("/results", { state: res.data });
       })
       .catch((err) => {
-        console.log(err.data);
         toast.dismiss(loadingToastId);
-        toast.error("there was a problem running the algorithms");
+        toast.error(err.response.data);
         console.log(err);
       });
   };
@@ -166,6 +165,7 @@ const RunAlgorithmsPage = () => {
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err.response.data);
       });
   }, []);
 

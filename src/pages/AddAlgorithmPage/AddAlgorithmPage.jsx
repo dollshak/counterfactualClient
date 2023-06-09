@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AddParametersModal } from "../AddParametersModal/AddParametersModal";
 import Axios from "axios";
 import HomeIcon from "@mui/icons-material/Home";
@@ -11,13 +11,20 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddAlgorithmPage = () => {
+  const { state } = useLocation();
+  console.log(state);
+
   const [algorithmFile, setAlgorithmFile] = useState();
-  const [algoName, setAlgoName] = useState("");
-  const [algoDesc, setAlgoDesc] = useState("");
-  const [algoInfo, setAlgoInfo] = useState("");
-  const [algoOutputExample, setAlgoOutputExample] = useState("");
-  const [parametersList, setParametersList] = useState([]);
-  const [algoTypes, setAlgoTypes] = useState([]);
+  const [algoName, setAlgoName] = useState(state ? state.name : "");
+  const [algoDesc, setAlgoDesc] = useState(state ? state.description : "");
+  const [algoInfo, setAlgoInfo] = useState(state ? state.additional_info : "");
+  const [algoOutputExample, setAlgoOutputExample] = useState(
+    state ? state.output_example : ""
+  );
+  const [parametersList, setParametersList] = useState(
+    state ? state.argument_lst : []
+  );
+  const [algoTypes, setAlgoTypes] = useState(state ? state.algo_type : []);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [isSubmitValid, setIsSubmitValid] = useState(false);
@@ -50,7 +57,7 @@ const AddAlgorithmPage = () => {
   };
   const onDataChange = () => {
     if (
-      !algorithmFile ||
+      // (!state && !algorithmFile) ||
       !algoName ||
       algoName.length < 1 ||
       !algoDesc ||
@@ -60,22 +67,25 @@ const AddAlgorithmPage = () => {
       !algoTypes ||
       algoTypes.length < 1
     ) {
-      setIsSubmitValid(false);
+      // setIsSubmitValid(false);
     } else {
       setIsSubmitValid(true);
     }
   };
   const onAddClick = () => {
     console.log("starting to add");
-    if (!algorithmFile) {
+    if (!state && !algorithmFile) {
       return;
     }
 
-    const loadingToastId = toast.loading("Adding the algorithm...", {
-      autoClose: false,
-    });
+    const loadingToastId = toast.loading(
+      state ? "Editing the algorithm..." : "Adding the algorithm...",
+      {
+        autoClose: false,
+      }
+    );
     var formData = new FormData();
-    formData.append("file_content", algorithmFile);
+    if (algorithmFile) formData.append("file_content", algorithmFile);
     formData.append("name", algoName);
     formData.append("argument_lst", JSON.stringify(parametersList));
     formData.append("description", algoDesc);
@@ -83,6 +93,13 @@ const AddAlgorithmPage = () => {
     formData.append("output_example", [algoOutputExample]);
     formData.append("type", JSON.stringify(algoTypes));
     setAddingClicked(true);
+
+    state
+      ? editAlgo(formData, loadingToastId)
+      : addAlgo(formData, loadingToastId);
+  };
+
+  const addAlgo = (formData, loadingToastId) => {
     api
       .post("/algorithm", formData, {
         headers: {
@@ -99,7 +116,28 @@ const AddAlgorithmPage = () => {
       .catch((err) => {
         console.log(err);
         toast.dismiss(loadingToastId);
-        toast.error("could not add algorithm");
+        toast.error(err.response.data);
+      });
+  };
+
+  const editAlgo = (formData, loadingToastId) => {
+    api
+      .put("/algorithm", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        toast.dismiss(loadingToastId);
+        toast.success("algorithm was edited successfully");
+        setTimeout(() => {
+          navigate("/");
+        }, 2500);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.dismiss(loadingToastId);
+        toast.error(err.response.data);
       });
   };
 
@@ -109,18 +147,28 @@ const AddAlgorithmPage = () => {
     }
   };
 
+  // const onTypeClick = (e) => {
+  //   let algoType = e.target.value;
+  //   if (e.target.checked && !algoTypes.includes(algoType)) {
+  //     algoTypes.push(algoType);
+  //   } else {
+  //     const index = algoTypes.indexOf(algoType);
+  //     if (index >= 0) {
+  //       algoTypes.splice(index);
+  //     }
+  //   }
+  // };
+
   const onTypeClick = (e) => {
     let algoType = e.target.value;
     if (e.target.checked && !algoTypes.includes(algoType)) {
-      algoTypes.push(algoType);
+      setAlgoTypes((prevTypes) => [...prevTypes, algoType]);
     } else {
-      const index = algoTypes.indexOf(algoType);
-      if (index >= 0) {
-        algoTypes.splice(index);
-      }
+      setAlgoTypes((prevTypes) =>
+        prevTypes.filter((type) => type !== algoType)
+      );
     }
   };
-
   return (
     <div className="addAlgo-container">
       <div>
@@ -131,7 +179,9 @@ const AddAlgorithmPage = () => {
         </button>
         <ToastContainer hideProgressBar={true} />
       </div>
-      <h1 className="mainTitle">Add New Algorithm</h1>
+      <h1 className="mainTitle">
+        {state ? "Edit Algorithm" : "Add New Algorithm"}
+      </h1>
 
       <div className="fields">
         <div className="rowSmall">
@@ -144,6 +194,7 @@ const AddAlgorithmPage = () => {
               type="text"
               value={algoName}
               onChange={onNameChange}
+              placeholder="ex. DiCE"
             />
           </div>
         </div>
@@ -158,6 +209,7 @@ const AddAlgorithmPage = () => {
               type="text"
               value={algoDesc}
               onChange={onDescChange}
+              placeholder="wirte a short text about your algorithm so others would be able to undertsand before choosing it."
             />
           </div>
         </div>
@@ -172,6 +224,7 @@ const AddAlgorithmPage = () => {
               type="text"
               value={algoOutputExample}
               onChange={onOutputChange}
+              placeholder="describe how the output should be, for example, it minimizes the distance from origin input"
             />
           </div>
         </div>
@@ -185,13 +238,17 @@ const AddAlgorithmPage = () => {
               type="text"
               value={algoInfo}
               onChange={onInfoChange}
+              placeholder="here is the place to elaborate and explained further about your agorithm, only those who would like to see further information would be exposed to this part.
+              you could place your email. github,website and so on."
             />
           </div>
         </div>
 
         <div className="rowSmall">
           <div className="columnLeftAddAlgo">
-            <label className="fieldTitle">Code File</label>
+            <label className="fieldTitle">
+              {state ? "Update File" : "Code File"}
+            </label>
           </div>
           <div className="columnRightAddAlgo">
             <input
@@ -222,6 +279,7 @@ const AddAlgorithmPage = () => {
                   onChange={onTypeClick}
                 />
               }
+              checked={algoTypes.includes(AlgoType.Regressor)}
               label="Regression Models"
               labelPlacement="Regression Models"
             />
@@ -239,6 +297,7 @@ const AddAlgorithmPage = () => {
                   onChange={onTypeClick}
                 />
               }
+              checked={algoTypes.includes(AlgoType.Classifier)}
               label="Classification Models"
               labelPlacement="Classification Models"
             />
@@ -268,7 +327,7 @@ const AddAlgorithmPage = () => {
           disabled={!isSubmitValid || addingClicked}
           onClick={onAddClick}
         >
-          add
+          Save
         </button>
       </div>
     </div>
