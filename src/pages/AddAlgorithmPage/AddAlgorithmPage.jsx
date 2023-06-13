@@ -16,6 +16,7 @@ const AddAlgorithmPage = () => {
 
   const [algorithmFile, setAlgorithmFile] = useState();
   const [algoName, setAlgoName] = useState(state ? state.name : "");
+  const [originName, setOriginAlgoName] = useState(state ? state.name : "");
   const [algoDesc, setAlgoDesc] = useState(state ? state.description : "");
   const [algoInfo, setAlgoInfo] = useState(state ? state.additional_info : "");
   const [algoOutputExample, setAlgoOutputExample] = useState(
@@ -53,6 +54,7 @@ const AddAlgorithmPage = () => {
   };
 
   const onAddParamsClick = () => {
+    console.log("trying to open");
     setOpenModal(true);
   };
   const onDataChange = () => {
@@ -92,6 +94,8 @@ const AddAlgorithmPage = () => {
     formData.append("additional_info", algoInfo);
     formData.append("output_example", [algoOutputExample]);
     formData.append("type", JSON.stringify(algoTypes));
+    state && formData.append("origin_name", originName);
+
     setAddingClicked(true);
 
     state
@@ -100,6 +104,7 @@ const AddAlgorithmPage = () => {
   };
 
   const addAlgo = (formData, loadingToastId) => {
+    console.log("starting to add algorithm");
     api
       .post("/algorithm", formData, {
         headers: {
@@ -107,6 +112,7 @@ const AddAlgorithmPage = () => {
         },
       })
       .then((res) => {
+        console.log(res);
         toast.dismiss(loadingToastId);
         toast.success("algorithm was added successfully");
         setTimeout(() => {
@@ -121,6 +127,7 @@ const AddAlgorithmPage = () => {
   };
 
   const editAlgo = (formData, loadingToastId) => {
+    console.log(formData);
     api
       .put("/algorithm", formData, {
         headers: {
@@ -184,6 +191,23 @@ const AddAlgorithmPage = () => {
       </h1>
 
       <div className="fields">
+        {/* {state && (
+          <div className="rowSmall">
+            <div className="columnLeftAddAlgo">
+              <label className="fieldTitle">Origin Algorithm's name</label>
+            </div>
+            <div className="columnRightAddAlgo">
+              <input
+                className="inputClass"
+                type="text"
+                value={originName}
+                onChange={onNameChange}
+                placeholder="ex. DiCE"
+                disabled={true}
+              />
+            </div>
+          </div>
+        )} */}
         <div className="rowSmall">
           <div className="columnLeftAddAlgo">
             <label className="fieldTitle">Algorithm's name</label>

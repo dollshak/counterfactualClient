@@ -66,6 +66,7 @@
   .algo_name{
     margin-left: 5px;
     color: white;
+    cursor: pointer;
   }
 
   .add_params_button{
@@ -119,4 +120,9 @@
   .RAP_MU_title{
     margin-right: 10px;
 
+  }
+
+  .algoPopup{
+    width: 70%;
+    height: 70%;
   }

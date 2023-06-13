@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { ParametersModal } from "../ParametersModal/ParametersModal";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 import DictionaryForm from "../ParametersModal/dictionaryForm/dictionaryForm";
 import { AlgoType } from "../../Objects/ConfigService";
 import HomeIcon from "@mui/icons-material/Home";
@@ -10,6 +12,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Popup from "reactjs-popup";
 
 const RunAlgorithmsPage = () => {
   const navigate = useNavigate();
@@ -156,6 +159,7 @@ const RunAlgorithmsPage = () => {
     api
       .get("/getAllAlgorithms")
       .then((res) => {
+        console.log(res);
         console.log(res?.data);
         setAlgorithmsList(res?.data);
         setSelectedType(AlgoType.Regressor);
@@ -242,9 +246,45 @@ const RunAlgorithmsPage = () => {
                     value={algorithm.name}
                     onClick={() => algorithmChecked(algorithm)}
                   />
-                  <label className="algo_name" htmlFor={algorithm._id}>
-                    {algorithm.name}
-                  </label>
+                  <Popup
+                    className="algoPopup"
+                    trigger={
+                      <div>
+                        <label
+                          className="algo_name"
+                          htmlFor={algorithm._id}
+                          data-tooltip-id={algorithm.name}
+                          data-tooltip-content={algorithm.description}
+                        >
+                          {algorithm.name}
+                        </label>
+                        <Tooltip
+                          id={`${algorithm.name}`}
+                          place="top"
+                          effect="solid"
+                          style={{
+                            backgroundColor: "white",
+                            color: "black",
+                          }}
+                        />
+                      </div>
+                    }
+                    position="right center"
+                    contentStyle={{
+                      width: "auto",
+                      maxHeight: "80vh",
+                      overflow: "auto",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <div>
+                      <h1>{algorithm.name}</h1>
+                      <p>{algorithm.description}</p>
+                      <p>{algorithm.output_example}</p>
+                      <p>{algorithm.additional_info}</p>
+                    </div>
+                  </Popup>
+
                   <button
                     className="add_params_button"
                     id={"p" + algorithm._id}

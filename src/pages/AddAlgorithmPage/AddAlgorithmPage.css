@@ -22,6 +22,7 @@
   position: fixed;
   width: 100%;
   text-align: center;
+  overflow-y: scroll;
 }
 .mainTitle {
     color: white;
@@ -67,5 +68,5 @@
 }
 
 .submitButton{
-  margin-top: 30px;
+  margin-top: 80px;
 }
